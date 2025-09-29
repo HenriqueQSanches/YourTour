@@ -125,8 +125,7 @@ Este projeto está sob a licença MIT. Veja o arquivo `LICENSE` para mais detalh
 
 ## 👥 Equipe
 
-- **Desenvolvedor Principal**: Henrique Q. Sanches
-- **GitHub**: [@HenriqueQSanches](https://github.com/HenriqueQSanches)
+- **Desenvolvedores**: Henrique Q. Sanches, Rafael Ferreira Sanches Torres, Kayky Ruan Peroni Dias, Marcelo Fiorotti Cassiano, Victor Nunes
 
 ## 📞 Contato
 
