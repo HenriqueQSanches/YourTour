@@ -1,9 +1,38 @@
 // lib/main.dart
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter/foundation.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import 'package:sqflite_common_ffi_web/sqflite_ffi_web.dart';
 import 'login_screen.dart';
 import 'cadastro_screen.dart';
+import 'profile_screen.dart';
+import 'database/database_helper.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  
+  // Configurar SQLite apenas para desktop
+  if (!kIsWeb && (defaultTargetPlatform == TargetPlatform.windows || 
+                  defaultTargetPlatform == TargetPlatform.linux || 
+                  defaultTargetPlatform == TargetPlatform.macOS)) {
+    // Para desktop, usar sqflite_common_ffi
+    sqfliteFfiInit();
+    databaseFactory = databaseFactoryFfi;
+  }
+  
+  // Inicializar o banco de dados apenas para mobile/desktop
+  if (!kIsWeb) {
+    try {
+      await DatabaseHelper().database;
+      print('Banco de dados inicializado com sucesso');
+    } catch (e) {
+      print('Erro ao inicializar banco de dados: $e');
+    }
+  } else {
+    print('⚠️  SQLite não suportado na web. Use mobile ou desktop para testar.');
+  }
+  
   runApp(const MyApp());
 }
 

@@ -1,6 +1,8 @@
 // lib/cadastro_screen.dart
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'models/user.dart';
+import 'services/user_service.dart';
 
 class CadastroScreen extends StatefulWidget {
   const CadastroScreen({super.key});
@@ -29,6 +31,8 @@ class _CadastroScreenState extends State<CadastroScreen> {
   bool _senhaVisivel = false;
   bool _confirmarSenhaVisivel = false;
   bool _termosAceitos = false;
+  bool _isLoading = false;
+  final UserService _userService = UserService();
 
   // Lista de países
   final List<String> _paises = [
@@ -105,9 +109,14 @@ class _CadastroScreenState extends State<CadastroScreen> {
     }
   }
 
-  void _cadastrar() {
+  void _cadastrar() async {
+    print('🔵 [CADASTRO] Iniciando processo de cadastro...');
+    
     if (_formKey.currentState!.validate()) {
+      print('🔵 [CADASTRO] Validação do formulário passou');
+      
       if (!_termosAceitos) {
+        print('🔴 [CADASTRO] Termos não aceitos');
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Você deve aceitar os termos e condições'),
@@ -118,6 +127,7 @@ class _CadastroScreenState extends State<CadastroScreen> {
       }
 
       if (_captchaController.text.toUpperCase() != _captchaGerado) {
+        print('🔴 [CADASTRO] CAPTCHA incorreto');
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Código CAPTCHA incorreto'),
@@ -128,26 +138,84 @@ class _CadastroScreenState extends State<CadastroScreen> {
         return;
       }
 
-      // Simulação de cadastro bem-sucedido
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            'Cadastro realizado com sucesso! Bem-vindo, ${_nomeController.text}',
-          ),
-          backgroundColor: Colors.green,
-        ),
-      );
-
-      // Limpar formulário
-      _formKey.currentState!.reset();
-      _gerarCaptcha();
+      print('🔵 [CADASTRO] Iniciando loading...');
       setState(() {
-        _generoSelecionado = null;
-        _paisSelecionado = null;
-        _termosAceitos = false;
-        _senhaVisivel = false;
-        _confirmarSenhaVisivel = false;
+        _isLoading = true;
       });
+
+      try {
+        print('🔵 [CADASTRO] Criando objeto User...');
+        // Criar objeto User
+        User newUser = User(
+          userName: _nomeController.text,
+          userEmail: _emailController.text,
+          userPhone: _telefoneController.text,
+          userBirth: _dataNascimentoController.text,
+          userGender: _generoSelecionado!,
+          userCountry: _paisSelecionado!,
+          userPassword: _senhaController.text,
+        );
+        print('🔵 [CADASTRO] Objeto User criado: ${newUser.userName}');
+
+        print('🔵 [CADASTRO] Validando dados do usuário...');
+        // Validar dados
+        String? validationError = _userService.validateUserData(newUser);
+        if (validationError != null) {
+          print('🔴 [CADASTRO] Erro na validação: $validationError');
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(validationError),
+              backgroundColor: Colors.red,
+            ),
+          );
+          return;
+        }
+        print('🔵 [CADASTRO] Validação passou');
+
+        print('🔵 [CADASTRO] Chamando createUser...');
+        // Criar usuário no banco de dados
+        int userId = await _userService.createUser(newUser);
+        print('🔵 [CADASTRO] Usuário criado com ID: $userId');
+        
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Cadastro realizado com sucesso! Bem-vindo, ${_nomeController.text}',
+            ),
+            backgroundColor: Colors.green,
+          ),
+        );
+
+        // Limpar formulário
+        _formKey.currentState!.reset();
+        _gerarCaptcha();
+        setState(() {
+          _generoSelecionado = null;
+          _paisSelecionado = null;
+          _termosAceitos = false;
+          _senhaVisivel = false;
+          _confirmarSenhaVisivel = false;
+        });
+
+        // Navegar para tela de login após cadastro bem-sucedido
+        Navigator.pop(context);
+        
+      } catch (e) {
+        print('🔴 [CADASTRO] Erro capturado: $e');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Erro ao cadastrar: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      } finally {
+        print('🔵 [CADASTRO] Finalizando loading...');
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    } else {
+      print('🔴 [CADASTRO] Validação do formulário falhou');
     }
   }
 
@@ -803,7 +871,7 @@ class _CadastroScreenState extends State<CadastroScreen> {
                             width: double.infinity,
                             height: 55,
                             child: ElevatedButton(
-                              onPressed: _cadastrar,
+                              onPressed: _isLoading ? null : _cadastrar,
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: const Color.fromARGB(
                                   255,
@@ -819,14 +887,26 @@ class _CadastroScreenState extends State<CadastroScreen> {
                                 ),
                                 elevation: 6,
                               ),
-                              child: const Text(
-                                'CADASTRAR',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                ),
-                              ),
+                              child: _isLoading
+                                  ? const SizedBox(
+                                      width: 20,
+                                      height: 20,
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2,
+                                        valueColor:
+                                            AlwaysStoppedAnimation<Color>(
+                                              Colors.white,
+                                            ),
+                                      ),
+                                    )
+                                  : const Text(
+                                      'CADASTRAR',
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
+                                    ),
                             ),
                           ),
                           const SizedBox(height: 16),
