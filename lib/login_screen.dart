@@ -1,5 +1,8 @@
 // lib/login_screen.dart
 import 'package:flutter/material.dart';
+import 'models/user.dart';
+import 'services/user_service.dart';
+import 'profile_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -18,6 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
   String _captchaGerado = '';
   bool _senhaVisivel = false;
   bool _isLoading = false;
+  final UserService _userService = UserService();
 
   @override
   void initState() {
@@ -57,23 +61,58 @@ class _LoginScreenState extends State<LoginScreen> {
         _isLoading = true;
       });
 
-      // Simulação de processo de login
-      await Future.delayed(const Duration(seconds: 2));
+      try {
+        // Autenticar usuário no banco de dados
+        User? user = await _userService.authenticateUser(
+          _emailController.text,
+          _senhaController.text,
+        );
 
-      setState(() {
-        _isLoading = false;
-      });
+        if (user != null) {
+          // Login bem-sucedido
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Bem-vindo de volta, ${user.userName}!'),
+              backgroundColor: Colors.green,
+            ),
+          );
 
-      // Login bem-sucedido
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Login realizado com sucesso!'),
-          backgroundColor: Colors.green,
-        ),
-      );
+          // Limpar campos
+          _emailController.clear();
+          _senhaController.clear();
+          _captchaController.clear();
+          _gerarCaptcha();
 
-      // Navegar para tela principal (substituir pela navegação real)
-      // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainScreen()));
+          // Navegar para tela de perfil do usuário
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ProfileScreen(user: user),
+            ),
+          );
+        } else {
+          // Credenciais inválidas
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Email ou senha incorretos'),
+              backgroundColor: Colors.red,
+            ),
+          );
+          _gerarCaptcha();
+        }
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Erro ao fazer login: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+        _gerarCaptcha();
+      } finally {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
   }
 
