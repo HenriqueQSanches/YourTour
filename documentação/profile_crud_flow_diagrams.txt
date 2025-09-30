@@ -1,0 +1,341 @@
+================================================================================
+DIAGRAMAS DE FLUXO - OPERAÇÕES CRUD NA TELA DE PERFIL
+================================================================================
+
+TÍTULO: Diagramas de Fluxo das Funcionalidades PUT e DELETE
+DATA: 2024
+VERSÃO: 1.0
+
+================================================================================
+DIAGRAMA 1: FLUXO DE ATUALIZAÇÃO DE PERFIL (PUT)
+================================================================================
+
+INÍCIO
+  ↓
+Usuário clica em "EDITAR"
+  ↓
+Abrir Dialog de Edição
+  ↓
+Preencher campos com dados atuais
+  ↓
+Usuário modifica dados
+  ↓
+Usuário clica em "SALVAR"
+  ↓
+VALIDAR CAMPOS
+  ↓
+┌─ Campos vazios? ─┐
+│ SIM              │
+│ ↓                │
+│ Mostrar erro     │
+│ ↓                │
+│ Voltar ao dialog │
+└──────────────────┘
+  ↓
+┌─ Campos OK? ─┐
+│ NÃO          │
+│ ↓            │
+│ Mostrar erro │
+│ ↓            │
+│ Voltar       │
+└──────────────┘
+  ↓
+┌─ Campos OK? ─┐
+│ SIM          │
+│ ↓            │
+│ Criar User   │
+│ atualizado   │
+│ com copyWith │
+└──────────────┘
+  ↓
+Mostrar Loading
+  ↓
+Chamar userService.updateUser()
+  ↓
+┌─ Sucesso? ─┐
+│ NÃO        │
+│ ↓          │
+│ Mostrar    │
+│ erro       │
+│ ↓          │
+│ Fechar     │
+│ loading    │
+└────────────┘
+  ↓
+┌─ Sucesso? ─┐
+│ SIM        │
+│ ↓          │
+│ Fechar     │
+│ loading    │
+│ ↓          │
+│ Fechar     │
+│ dialog     │
+│ ↓          │
+│ Atualizar  │
+│ _currentUser│
+│ ↓          │
+│ Mostrar    │
+│ sucesso    │
+└────────────┘
+  ↓
+FIM
+
+================================================================================
+DIAGRAMA 2: FLUXO DE EXCLUSÃO DE CONTA (DELETE)
+================================================================================
+
+INÍCIO
+  ↓
+Usuário clica em "EXCLUIR"
+  ↓
+Mostrar Dialog de Confirmação
+  ↓
+┌─ Usuário confirma? ─┐
+│ NÃO                 │
+│ ↓                   │
+│ Fechar dialog       │
+│ ↓                   │
+│ FIM                 │
+└─────────────────────┘
+  ↓
+┌─ Usuário confirma? ─┐
+│ SIM                 │
+│ ↓                   │
+│ Verificar userId    │
+└─────────────────────┘
+  ↓
+┌─ userId existe? ─┐
+│ NÃO              │
+│ ↓                │
+│ Mostrar erro     │
+│ ↓                │
+│ FIM              │
+└──────────────────┘
+  ↓
+┌─ userId existe? ─┐
+│ SIM              │
+│ ↓                │
+│ Mostrar Loading  │
+└──────────────────┘
+  ↓
+Chamar userService.deleteUser()
+  ↓
+┌─ Sucesso? ─┐
+│ NÃO        │
+│ ↓          │
+│ Fechar     │
+│ loading    │
+│ ↓          │
+│ Mostrar    │
+│ erro       │
+└────────────┘
+  ↓
+┌─ Sucesso? ─┐
+│ SIM        │
+│ ↓          │
+│ Fechar     │
+│ loading    │
+│ ↓          │
+│ Mostrar    │
+│ confirmação│
+│ de sucesso │
+│ ↓          │
+│ Usuário    │
+│ clica OK   │
+│ ↓          │
+│ Redirecionar│
+│ para Login │
+└────────────┘
+  ↓
+FIM
+
+================================================================================
+DIAGRAMA 3: ESTRUTURA DE COMPONENTES
+================================================================================
+
+ProfileScreen
+├── _currentUser: User
+├── _userService: UserService
+├── _editProfile()
+├── _deleteAccount()
+├── _confirmDeleteAccount()
+└── _logout()
+
+_EditProfileDialog
+├── user: User
+├── userService: UserService
+├── onUpdate: Function(User)
+├── _saveChanges()
+├── _buildTextField()
+└── _buildGenderDropdown()
+
+UserService
+├── updateUser(User): Future<bool>
+├── deleteUser(int): Future<bool>
+└── authenticateUser(String, String): Future<User?>
+
+DatabaseHelper
+├── updateUser(User): Future<int>
+├── deleteUser(int): Future<int>
+└── getUserByEmail(String): Future<User?>
+
+================================================================================
+DIAGRAMA 4: FLUXO DE DADOS
+================================================================================
+
+TELA DE PERFIL
+    ↓
+┌─ EDITAR ─┐
+│          │
+│ Dialog   │
+│ Edição   │
+│          │
+└──────────┘
+    ↓
+┌─ Dados ─┐
+│ Modificados│
+└──────────┘
+    ↓
+┌─ Validação ─┐
+│             │
+│ Campos OK?  │
+│             │
+└─────────────┘
+    ↓
+┌─ UserService ─┐
+│               │
+│ updateUser()  │
+│               │
+└───────────────┘
+    ↓
+┌─ DatabaseHelper ─┐
+│                  │
+│ UPDATE users     │
+│ SET ... WHERE id │
+│                  │
+└──────────────────┘
+    ↓
+┌─ SQLite Database ─┐
+│                   │
+│ Tabela: users     │
+│ Registro atualizado│
+│                   │
+└───────────────────┘
+    ↓
+┌─ Resposta ─┐
+│            │
+│ Sucesso?   │
+│            │
+└────────────┘
+    ↓
+┌─ Atualizar Tela ─┐
+│                  │
+│ _currentUser =   │
+│ updatedUser      │
+│                  │
+└──────────────────┘
+
+================================================================================
+DIAGRAMA 5: TRATAMENTO DE ERROS
+================================================================================
+
+OPERATION_START
+    ↓
+┌─ Validação ─┐
+│             │
+│ Campos OK?  │
+│             │
+└─────────────┘
+    ↓
+┌─ Campos OK? ─┐
+│ NÃO          │
+│ ↓            │
+│ SnackBar     │
+│ Erro         │
+│ ↓            │
+│ Voltar       │
+└──────────────┘
+    ↓
+┌─ Campos OK? ─┐
+│ SIM          │
+│ ↓            │
+│ Chamada API  │
+└──────────────┘
+    ↓
+┌─ API Response ─┐
+│                │
+│ Sucesso?       │
+│                │
+└────────────────┘
+    ↓
+┌─ Sucesso? ─┐
+│ NÃO        │
+│ ↓          │
+│ Catch      │
+│ Exception  │
+│ ↓          │
+│ SnackBar   │
+│ Erro       │
+│ ↓          │
+│ Fechar     │
+│ Loading    │
+└────────────┘
+    ↓
+┌─ Sucesso? ─┐
+│ SIM        │
+│ ↓          │
+│ SnackBar   │
+│ Sucesso    │
+│ ↓          │
+│ Atualizar  │
+│ Interface  │
+└────────────┘
+    ↓
+OPERATION_END
+
+================================================================================
+DIAGRAMA 6: ESTADOS DA INTERFACE
+================================================================================
+
+ESTADO_INICIAL
+    ↓
+┌─ Botões Disponíveis ─┐
+│                      │
+│ [EDITAR] [EXCLUIR]   │
+│ [SAIR]               │
+│                      │
+└──────────────────────┘
+    ↓
+┌─ EDITAR Clicado ─┐
+│                  │
+│ Dialog de Edição │
+│ [CANCELAR] [SALVAR]│
+│                  │
+└──────────────────┘
+    ↓
+┌─ SALVAR Clicado ─┐
+│                  │
+│ Loading Spinner  │
+│ "Salvando..."    │
+│                  │
+└──────────────────┘
+    ↓
+┌─ Sucesso ─┐
+│           │
+│ SnackBar  │
+│ "Sucesso!"│
+│           │
+└───────────┘
+    ↓
+┌─ Dados Atualizados ─┐
+│                     │
+│ Interface atualizada│
+│ com novos dados     │
+│                     │
+└─────────────────────┘
+    ↓
+ESTADO_FINAL
+
+================================================================================
+FIM DOS DIAGRAMAS
+================================================================================
