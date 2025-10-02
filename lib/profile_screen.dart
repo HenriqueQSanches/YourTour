@@ -481,7 +481,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       // Deletar usuário do banco de dados
       bool success = await _userService.deleteUser(_currentUser.userId!);
       
-      Navigator.pop(context)
+      Navigator.pop(context);
       
       if (success) {
         // Mostrar confirmação de sucesso

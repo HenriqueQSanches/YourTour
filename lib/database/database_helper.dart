@@ -29,8 +29,9 @@ class DatabaseHelper {
       String path = join(await getDatabasesPath(), 'youtour.db');
       return await openDatabase(
         path,
-        version: 1,
+        version: 2,
         onCreate: _onCreate,
+        onUpgrade: _onUpgrade,
       );
     } catch (e) {
       print('Erro ao inicializar banco de dados: $e');
@@ -48,9 +49,25 @@ class DatabaseHelper {
         userBirth TEXT NOT NULL,
         userGender TEXT NOT NULL,
         userCountry TEXT NOT NULL,
-        userPassword TEXT NOT NULL
+        userPassword TEXT,
+        isForget INTEGER DEFAULT 0,
+        resetCode TEXT,
+        codeExpiry TEXT
       )
     ''');
+  }
+
+  Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
+    if (oldVersion < 2) {
+      await db.execute('ALTER TABLE users ADD COLUMN isForget INTEGER DEFAULT 0');
+      await db.execute('ALTER TABLE users ADD COLUMN resetCode TEXT');
+      await db.execute('ALTER TABLE users ADD COLUMN codeExpiry TEXT');
+      
+      await db.execute('ALTER TABLE users ADD COLUMN userPassword_new TEXT');
+      await db.execute('UPDATE users SET userPassword_new = userPassword');
+      await db.execute('ALTER TABLE users DROP COLUMN userPassword');
+      await db.execute('ALTER TABLE users RENAME COLUMN userPassword_new TO userPassword');
+    }
   }
 
   // Inserir um novo usuário
@@ -135,6 +152,84 @@ class DatabaseHelper {
       whereArgs: [email],
     );
     return maps.isNotEmpty;
+  }
+
+
+  Future<bool> requestPasswordReset(String email, String resetCode, String codeExpiry) async {
+    try {
+      final db = await database;
+      int result = await db.update(
+        'users',
+        {
+          'isForget': 1,
+          'userPassword': null,
+          'resetCode': resetCode,
+          'codeExpiry': codeExpiry,
+        },
+        where: 'userEmail = ?',
+        whereArgs: [email],
+      );
+      return result > 0;
+    } catch (e) {
+      print('🔴 [DATABASE] Erro ao solicitar reset de senha');
+      return false;
+    }
+  }
+
+  Future<bool> verifyResetCode(String email, String code) async {
+    try {
+      final db = await database;
+      final List<Map<String, dynamic>> maps = await db.query(
+        'users',
+        where: 'userEmail = ? AND resetCode = ? AND codeExpiry > ?',
+        whereArgs: [email, code, DateTime.now().toIso8601String()],
+      );
+      return maps.isNotEmpty;
+    } catch (e) {
+      print('🔴 [DATABASE] Erro ao verificar código de reset: $e');
+      return false;
+    }
+  }
+
+  Future<bool> resetPassword(String email, String newPassword) async {
+    try {
+      final db = await database;
+      int result = await db.update(
+        'users',
+        {
+          'isForget': 0,
+          'userPassword': newPassword,
+          'resetCode': null,
+          'codeExpiry': null,
+        },
+        where: 'userEmail = ?',
+        whereArgs: [email],
+      );
+      return result > 0;
+    } catch (e) {
+      print('🔴 [DATABASE] Erro ao resetar senha: $e');
+      return false;
+    }
+  }
+
+  Future<bool> clearResetData(String email) async {
+    try {
+      final db = await database;
+      int result = await db.update(
+        'users',
+        {
+          'isForget': 0,
+          'resetCode': null,
+          'codeExpiry': null,
+        },
+        where: 'userEmail = ?',
+        whereArgs: [email],
+      );
+      return result > 0;
+    } catch (e) {
+      print('🔴 [DATABASE] Erro ao limpar dados de reset: $e');
+      return false;
+    }
   }
 
   // Fechar o banco de dados

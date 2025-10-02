@@ -6,7 +6,10 @@ class User {
   final String userBirth;
   final String userGender;
   final String userCountry;
-  final String userPassword;
+  final String? userPassword;
+  final bool isForget;
+  final String? resetCode;
+  final String? codeExpiry;
 
   User({
     this.userId,
@@ -16,7 +19,10 @@ class User {
     required this.userBirth,
     required this.userGender,
     required this.userCountry,
-    required this.userPassword,
+    this.userPassword,
+    this.isForget = false,
+    this.resetCode,
+    this.codeExpiry,
   });
 
   // Converte um Map para User
@@ -30,6 +36,9 @@ class User {
       userGender: map['userGender'],
       userCountry: map['userCountry'],
       userPassword: map['userPassword'],
+      isForget: map['isForget'] == 1 || map['isForget'] == true,
+      resetCode: map['resetCode'],
+      codeExpiry: map['codeExpiry'],
     );
   }
 
@@ -44,6 +53,9 @@ class User {
       'userGender': userGender,
       'userCountry': userCountry,
       'userPassword': userPassword,
+      'isForget': isForget ? 1 : 0,
+      'resetCode': resetCode,
+      'codeExpiry': codeExpiry,
     };
   }
 
@@ -57,6 +69,9 @@ class User {
     String? userGender,
     String? userCountry,
     String? userPassword,
+    bool? isForget,
+    String? resetCode,
+    String? codeExpiry,
   }) {
     return User(
       userId: userId ?? this.userId,
@@ -67,12 +82,15 @@ class User {
       userGender: userGender ?? this.userGender,
       userCountry: userCountry ?? this.userCountry,
       userPassword: userPassword ?? this.userPassword,
+      isForget: isForget ?? this.isForget,
+      resetCode: resetCode ?? this.resetCode,
+      codeExpiry: codeExpiry ?? this.codeExpiry,
     );
   }
 
   @override
   String toString() {
-    return 'User{userId: $userId, userName: $userName, userEmail: $userEmail, userPhone: $userPhone, userBirth: $userBirth, userGender: $userGender, userCountry: $userCountry}';
+    return 'User{userId: $userId, userName: $userName, userEmail: $userEmail, userPhone: $userPhone, userBirth: $userBirth, userGender: $userGender, userCountry: $userCountry, isForget: $isForget}';
   }
 
   @override
@@ -86,7 +104,10 @@ class User {
         other.userBirth == userBirth &&
         other.userGender == userGender &&
         other.userCountry == userCountry &&
-        other.userPassword == userPassword;
+        other.userPassword == userPassword &&
+        other.isForget == isForget &&
+        other.resetCode == resetCode &&
+        other.codeExpiry == codeExpiry;
   }
 
   @override
@@ -98,6 +119,9 @@ class User {
         userBirth.hashCode ^
         userGender.hashCode ^
         userCountry.hashCode ^
-        userPassword.hashCode;
+        userPassword.hashCode ^
+        isForget.hashCode ^
+        resetCode.hashCode ^
+        codeExpiry.hashCode;
   }
 }
