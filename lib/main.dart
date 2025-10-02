@@ -7,6 +7,9 @@ import 'package:sqflite_common_ffi_web/sqflite_ffi_web.dart';
 import 'login_screen.dart';
 import 'cadastro_screen.dart';
 import 'profile_screen.dart';
+import 'screens/forgot_password_screen.dart';
+import 'screens/verify_code_screen.dart';
+import 'screens/reset_password_screen.dart';
 import 'database/database_helper.dart';
 
 void main() async {
@@ -71,6 +74,9 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const LoginScreen(),
         '/cadastro': (context) => const CadastroScreen(),
+        '/forgot-password': (context) => const ForgotPasswordScreen(),
+        '/verify-code': (context) => const VerifyCodeScreen(email: ''),
+        '/reset-password': (context) => const ResetPasswordScreen(email: ''),
       },
       debugShowCheckedModeBanner: false,
     );

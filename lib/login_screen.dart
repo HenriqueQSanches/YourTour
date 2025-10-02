@@ -438,6 +438,22 @@ class _LoginScreenState extends State<LoginScreen> {
                                     ),
                             ),
                           ),
+                          const SizedBox(height: 16),
+
+                          // Link "Esqueci minha Senha"
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/forgot-password');
+                            },
+                            child: const Text(
+                              'Esqueci minha Senha',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                                decoration: TextDecoration.underline,
+                              ),
+                            ),
+                          ),
                           const SizedBox(height: 20),
 
                           // Divisor
