@@ -15,10 +15,6 @@ class DatabaseHelper {
   }
 
   Future<Database> get database async {
-    if (kIsWeb) {
-      throw UnsupportedError('SQLite não funciona na web! Use mobile ou desktop para testar.');
-    }
-    
     if (_database != null) return _database!;
     _database = await _initDatabase();
     return _database!;
