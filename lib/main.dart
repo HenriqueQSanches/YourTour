@@ -15,25 +15,24 @@ import 'database/database_helper.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   
-  // Configurar SQLite apenas para desktop
-  if (!kIsWeb && (defaultTargetPlatform == TargetPlatform.windows || 
-                  defaultTargetPlatform == TargetPlatform.linux || 
-                  defaultTargetPlatform == TargetPlatform.macOS)) {
-    // Para desktop, usar sqflite_common_ffi
+  // Configurar SQLite por plataforma
+  if (kIsWeb) {
+    // Web: usa IndexedDB via sqflite_common_ffi_web
+    databaseFactory = databaseFactoryFfiWeb;
+  } else if (defaultTargetPlatform == TargetPlatform.windows ||
+      defaultTargetPlatform == TargetPlatform.linux ||
+      defaultTargetPlatform == TargetPlatform.macOS) {
+    // Desktop nativo
     sqfliteFfiInit();
     databaseFactory = databaseFactoryFfi;
-  }
+  } // Android/iOS utilizam a factory padrão do sqflite
   
-  // Inicializar o banco de dados apenas para mobile/desktop
-  if (!kIsWeb) {
-    try {
-      await DatabaseHelper().database;
-      print('Banco de dados inicializado com sucesso');
-    } catch (e) {
-      print('Erro ao inicializar banco de dados: $e');
-    }
-  } else {
-    print('⚠️  SQLite não suportado na web. Use mobile ou desktop para testar.');
+  // Inicializar o banco de dados (todas as plataformas com sua factory correspondente)
+  try {
+    await DatabaseHelper().database;
+    print('Banco de dados inicializado com sucesso');
+  } catch (e) {
+    print('Erro ao inicializar banco de dados: $e');
   }
   
   runApp(const MyApp());
