@@ -4,6 +4,7 @@ import '../settings/help_page.dart';
 import '../settings/user_data_page.dart';
 import '../favorites/favorites_screen.dart';
 import '../../screens/home/home_screen.dart'; // Caminho corrigido para a HomeScreen
+import '../../login_screen.dart';
 
 class ConfigMainScreen extends StatelessWidget {
   const ConfigMainScreen({super.key});
@@ -477,9 +478,12 @@ class ConfigMainScreen extends StatelessWidget {
             ),
             TextButton(
               onPressed: () {
-                // Ação de logout
                 Navigator.of(context).pop();
-                // Aqui você pode adicionar a lógica de logout
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LoginScreen()),
+                  (route) => false,
+                );
               },
               child: const Text(
                 'Sair',

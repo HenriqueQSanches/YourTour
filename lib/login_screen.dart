@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'models/user.dart';
 import 'services/user_service.dart';
-import 'profile_screen.dart';
+import 'screens/home/home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -83,11 +83,11 @@ class _LoginScreenState extends State<LoginScreen> {
           _captchaController.clear();
           _gerarCaptcha();
 
-          // Navegar para tela de perfil do usuário
+          // Navegar para a tela inicial (Home)
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => ProfileScreen(user: user),
+              builder: (context) => const HomeScreen(),
             ),
           );
         } else {
