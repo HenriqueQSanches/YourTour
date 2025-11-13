@@ -1,0 +1,122 @@
+final List<Map<String, dynamic>> nearbyLocations = [
+  {
+    'name': 'Rio de Janeiro',
+    'rating': 4,
+    'image': 'assets/images/icone_rio.jpg',
+    'description': 'Cidade maravilhosa com praias incríveis',
+    'fullDescription':
+        'O Rio de Janeiro é uma grande cidade brasileira à beira-mar, famosas pelas praias de Copacabana e Ipanema, pela estátua de 38 metros de altura do Cristo Redentor, no topo do Corcovado, e pelo Pão de Açúcar, um pico de granito com teleféricos até seu cume.',
+    'reviews': 317,
+    'questions': 52,
+    'code': '1033.0.0.U',
+    'features': [
+      'Praias paradisíacas',
+      'Paisagens naturais únicas',
+      'Rica cultura e história',
+      'Gastronomia diversificada',
+    ],
+    'price': 'R\$ 1.200',
+    'discountPrice': 'R\$ 980',
+    'installments': '8x de R\$ 122,50 s/ juros',
+  },
+  {
+    'name': 'Cataratas do Iguaçu',
+    'rating': 5,
+    'image': 'assets/images/icone_cataratas.jpg',
+    'description': 'Uma das maiores cachoeiras do mundo',
+    'fullDescription':
+        'As Cataratas do Iguaçu são um conjunto de cerca de 275 quedas de água no rio Iguaçu, localizada entre o Parque Nacional do Iguaçu, no Brasil, e o Parque Nacional Iguazú, na Argentina. É uma das maiores cachoeiras do mundo em volume de água.',
+    'reviews': 428,
+    'questions': 67,
+    'code': '1034.0.0.U',
+    'features': [
+      'Patrimônio Mundial da UNESCO',
+      'Passeio de barco emocionante',
+      'Trilhas pela mata atlântica',
+      'Vista panorâmica incrível',
+    ],
+    'price': 'R\$ 850',
+    'discountPrice': 'R\$ 720',
+    'installments': '6x de R\$ 120,00 s/ juros',
+  },
+  {
+    'name': 'São Paulo',
+    'rating': 4,
+    'image': 'assets/images/icone_sp.jpg',
+    'description': 'Maior cidade do Brasil',
+    'fullDescription':
+        'São Paulo é uma metrópole global e o principal centro financeiro, corporativo e mercantil da América do Sul. É a cidade mais populosa do Brasil e também uma das mais diversificadas culturalmente, com influências de imigrantes de todo o mundo.',
+    'reviews': 289,
+    'questions': 45,
+    'code': '1035.0.0.U',
+    'features': [
+      'Vida noturna vibrante',
+      'Museus e galerias de arte',
+      'Gastronomia internacional',
+      'Compras e entretenimento',
+    ],
+    'price': 'R\$ 950',
+    'discountPrice': 'R\$ 810',
+    'installments': '7x de R\$ 115,71 s/ juros',
+  },
+];
+
+final List<Map<String, dynamic>> placesToVisit = [
+  {
+    'name': 'Cristo Redentor - RJ',
+    'image': 'assets/images/icone_cristo.jpg',
+    'description': 'Uma das 7 maravilhas do mundo',
+    'fullDescription':
+        'O Cristo Redentor é uma estátua art déco que retrata Jesus Cristo, localizada no topo do morro do Corcovado, a 709 metros acima do nível do mar, no Parque Nacional da Tijuca, com vista para a maior parte da cidade do Rio de Janeiro.',
+    'reviews': 512,
+    'questions': 89,
+    'code': '2001.0.0.U',
+    'features': [
+      'Vista panorâmica do Rio',
+      'Uma das 7 Maravilhas do Mundo',
+      'Acesso por trem ou van',
+      'Mirante com 360 graus',
+    ],
+    'price': 'R\$ 120',
+    'discountPrice': 'R\$ 95',
+    'installments': '3x de R\$ 31,67 s/ juros',
+  },
+  {
+    'name': 'Pão de Açúcar - RJ',
+    'image': 'assets/images/icone_pao acucar.jpg',
+    'description': 'Vista panorâmica incrível',
+    'fullDescription':
+        'O Pão de Açúcar é um complexo de morros localizado no bairro da Urca, composto pelo Morro do Pão de Açúcar e pelo Morro da Urca. O acesso ao topo é feito por bondinhos que proporcionam uma vista espetacular da cidade.',
+    'reviews': 398,
+    'questions': 56,
+    'code': '2002.0.0.U',
+    'features': [
+      'Passeio de bondinho',
+      'Vista da Baía de Guanabara',
+      'Pôr do sol espetacular',
+      'Trilhas opcionais',
+    ],
+    'price': 'R\$ 150',
+    'discountPrice': 'R\$ 120',
+    'installments': '4x de R\$ 30,00 s/ juros',
+  },
+  {
+    'name': 'Museu do Amanhã - RJ',
+    'image': 'assets/images/icone_museu-do-amanha.jpg',
+    'description': 'Museu de ciências único',
+    'fullDescription':
+        'O Museu do Amanhã é um museu de ciências diferente. Um ambiente de ideias, explorações e perguntas sobre a época de grandes mudanças em que vivemos e os diferentes caminhos que se abrem para o futuro.',
+    'reviews': 267,
+    'questions': 34,
+    'code': '2003.0.0.U',
+    'features': [
+      'Arquitetura futurista',
+      'Exposições interativas',
+      'Localização à beira-mar',
+      'Conteúdo educativo',
+    ],
+    'price': 'R\$ 30',
+    'discountPrice': 'R\$ 24',
+    'installments': '2x de R\$ 12,00 s/ juros',
+  },
+];
