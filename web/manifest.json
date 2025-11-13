@@ -1,6 +1,6 @@
 {
-    "name": "tela_login",
-    "short_name": "tela_login",
+    "name": "your_tour_app",
+    "short_name": "your_tour_app",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

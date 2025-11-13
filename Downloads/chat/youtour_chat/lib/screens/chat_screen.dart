@@ -320,6 +320,7 @@ class _ChatScreenState extends State<ChatScreen> {
                         Icons.send_rounded,
                         color: Colors.white,
                         size: 20,
+                        
                       ),
                     ),
                   ),
