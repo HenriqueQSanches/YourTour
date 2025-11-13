@@ -13,6 +13,11 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^1.0.2
   url_launcher: ^6.1.11 
+  http: ^1.2.2
+  sqflite: ^2.3.3+1
+  sqflite_common_ffi: ^2.3.2+1
+  path: ^1.9.0
+  sqlite3: 2.4.0
 
 dev_dependencies:
   flutter_test:
