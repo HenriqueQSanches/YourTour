@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'models/user.dart';
 import 'services/user_service.dart';
 import 'screens/home/home_screen.dart';
+import 'i18n/strings.dart';
 import 'services/session_manager.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -179,9 +180,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
 
                   // Texto de boas-vindas
-                  const Text(
-                    'Bem-vindo de volta!',
-                    style: TextStyle(
+                  Text(
+                    S.of(context).t('login.welcome'),
+                    style: const TextStyle(
                       fontSize: 18,
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -189,9 +190,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 8),
-                  const Text(
-                    'Faça login para continuar sua jornada',
-                    style: TextStyle(
+                  Text(
+                    S.of(context).t('login.subtitle'),
+                    style: const TextStyle(
                       fontSize: 14,
                       color: Colors.white70,
                       fontWeight: FontWeight.w500,
@@ -211,7 +212,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             keyboardType: TextInputType.emailAddress,
                             style: const TextStyle(color: Colors.white),
                             decoration: InputDecoration(
-                              labelText: 'E-mail*',
+                              labelText: S.of(context).t('login.email'),
                               prefixIcon: const Icon(
                                 Icons.email,
                                 color: Colors.white,
@@ -249,7 +250,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             obscureText: !_senhaVisivel,
                             style: const TextStyle(color: Colors.white),
                             decoration: InputDecoration(
-                              labelText: 'Senha*',
+                              labelText: S.of(context).t('login.password'),
                               prefixIcon: const Icon(
                                 Icons.lock,
                                 color: Colors.white,
@@ -294,9 +295,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             alignment: Alignment.centerRight,
                             child: TextButton(
                               onPressed: _navigateToRecuperarSenha,
-                              child: const Text(
-                                'Esqueceu sua senha?',
-                                style: TextStyle(
+                              child: Text(
+                                S.of(context).t('login.forgot'),
+                                style: const TextStyle(
                                   color: Colors.purpleAccent,
                                   fontSize: 12,
                                 ),
@@ -317,9 +318,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             padding: const EdgeInsets.all(12.0),
                             child: Column(
                               children: [
-                                const Text(
-                                  'Verificação CAPTCHA',
-                                  style: TextStyle(
+                                Text(
+                                  S.of(context).t('login.captcha'),
+                                  style: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color: Colors.white,
                                   ),
@@ -346,7 +347,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                           color: Colors.white,
                                         ),
                                         decoration: InputDecoration(
-                                          hintText: 'Digite o código',
+                                          hintText: S.of(context).t('login.captcha_hint'),
                                           hintStyle: const TextStyle(
                                             color: Colors.white70,
                                           ),
@@ -432,9 +433,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                             ),
                                       ),
                                     )
-                                  : const Text(
-                                      'ENTRAR',
-                                      style: TextStyle(
+                                  : Text(
+                                      S.of(context).t('login.signin'),
+                                      style: const TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.white,
@@ -449,9 +450,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             onPressed: () {
                               Navigator.pushNamed(context, '/forgot-password');
                             },
-                            child: const Text(
-                              'Esqueci minha Senha',
-                              style: TextStyle(
+                            child: Text(
+                              S.of(context).t('login.forgot'),
+                              style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 14,
                                 decoration: TextDecoration.underline,
@@ -473,7 +474,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   horizontal: 12,
                                 ),
                                 child: Text(
-                                  'ou',
+                                  S.of(context).t('login.or'),
                                   style: TextStyle(
                                     color: Colors.white.withOpacity(0.7),
                                     fontSize: 12,
@@ -514,9 +515,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                     size: 24,
                                   ),
                                   const SizedBox(width: 8),
-                                  const Text(
-                                    'Continuar com Google',
-                                    style: TextStyle(color: Colors.white),
+                                  Text(
+                                    S.of(context).t('login.google'),
+                                    style: const TextStyle(color: Colors.white),
                                   ),
                                 ],
                               ),
@@ -548,9 +549,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                             child: Column(
                               children: [
-                                const Text(
-                                  'Não tem uma conta?',
-                                  style: TextStyle(
+                                Text(
+                                  S.of(context).t('login.no_account'),
+                                  style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,
@@ -572,15 +573,15 @@ class _LoginScreenState extends State<LoginScreen> {
                                       ),
                                       elevation: 5,
                                     ),
-                                    child: const Row(
+                                    child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: [
-                                        Icon(Icons.login, size: 18),
-                                        SizedBox(width: 8),
+                                        const Icon(Icons.login, size: 18),
+                                        const SizedBox(width: 8),
                                         Text(
-                                          'CADASTRE-SE',
-                                          style: TextStyle(
+                                          S.of(context).t('login.signup'),
+                                          style: const TextStyle(
                                             fontSize: 14,
                                             fontWeight: FontWeight.bold,
                                           ),

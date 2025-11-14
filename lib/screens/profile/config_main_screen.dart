@@ -6,6 +6,7 @@ import '../favorites/favorites_screen.dart';
 import '../../screens/home/home_screen.dart'; // Caminho corrigido para a HomeScreen
 import '../../login_screen.dart';
 import '../../services/session_manager.dart';
+import '../../i18n/strings.dart';
 
 class ConfigMainScreen extends StatelessWidget {
   const ConfigMainScreen({super.key});
@@ -97,9 +98,9 @@ class ConfigMainScreen extends StatelessWidget {
               ),
               const SizedBox(width: 12),
               // Título Configurações
-              const Text(
-                'Configurações',
-                style: TextStyle(
+              Text(
+                S.of(context).t('app.settings'),
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 20, // Reduzido de 24 para 20
                   fontWeight: FontWeight.bold,
@@ -240,7 +241,7 @@ class ConfigMainScreen extends StatelessWidget {
   Widget _buildSettingsList(BuildContext context) {
     final List<SettingItem> settings = [
       SettingItem(
-        title: 'Favoritos',
+        title: S.of(context).t('app.favorites'),
         icon: Icons.favorite,
         color: const Color(0xFFE91E63),
         onTap: () {
@@ -251,7 +252,7 @@ class ConfigMainScreen extends StatelessWidget {
         },
       ),
       SettingItem(
-        title: 'Idioma',
+        title: S.of(context).t('app.language'),
         icon: Icons.language,
         color: const Color(0xFF9C27B0),
         onTap: () {
@@ -262,7 +263,7 @@ class ConfigMainScreen extends StatelessWidget {
         },
       ),
       SettingItem(
-        title: 'Ajuda & Políticas',
+        title: S.of(context).t('app.help_policies'),
         icon: Icons.help_outline,
         color: const Color(0xFF673AB7),
         onTap: () {
@@ -273,7 +274,7 @@ class ConfigMainScreen extends StatelessWidget {
         },
       ),
       SettingItem(
-        title: 'Meus Dados',
+        title: S.of(context).t('app.my_data'),
         icon: Icons.person_outline,
         color: const Color(0xFF5E35B1),
         onTap: () {
@@ -289,7 +290,7 @@ class ConfigMainScreen extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       children: [
         // Seção de Configurações
-        _buildSectionTitle('Configurações do App'),
+        _buildSectionTitle(S.of(context).t('app.settings')),
         ...settings.map((item) => _buildSettingItem(item, context)),
 
         const SizedBox(height: 8),

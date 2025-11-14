@@ -3,6 +3,7 @@ import 'package:you_tour_app/screens/profile/profile_screen.dart';
 import 'location_details_screen.dart';
 import '../widgets/filter_option.dart';
 import '../../data/mock_data.dart';
+import '../../i18n/strings.dart';
 import 'package:instagram_chat/screens/chat_list_screen.dart';
 
 class SearchLocationContent extends StatefulWidget {
@@ -113,9 +114,9 @@ class _SearchLocationContentState extends State<SearchLocationContent> {
                   color: Colors.white.withOpacity(0.2),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: const Text(
-                  'Your Tour',
-                  style: TextStyle(
+                child: Text(
+                  S.of(context).t('home.welcome_title'),
+                  style: const TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
@@ -155,18 +156,18 @@ class _SearchLocationContentState extends State<SearchLocationContent> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'YourTour',
-            style: TextStyle(
+          Text(
+            S.of(context).t('home.welcome_title'),
+            style: const TextStyle(
               fontSize: 28,
               fontWeight: FontWeight.bold,
               color: Color(0xFF6A1B9A),
             ),
           ),
           const SizedBox(height: 8),
-          const Text(
-            'Descubra lugares incríveis',
-            style: TextStyle(
+          Text(
+            S.of(context).t('home.welcome_sub'),
+            style: const TextStyle(
               fontSize: 16,
               color: Color(0xFF6A1B9A),
             ),
@@ -184,14 +185,14 @@ class _SearchLocationContentState extends State<SearchLocationContent> {
                 ),
               ],
             ),
-            child: const TextField(
+            child: TextField(
               decoration: InputDecoration(
-                hintText: 'Pesquise seu local...',
-                hintStyle: TextStyle(color: Colors.grey),
-                prefixIcon: Icon(Icons.search, color: Color(0xFF6A1B9A)),
+                hintText: S.of(context).t('home.search_hint'),
+                hintStyle: const TextStyle(color: Colors.grey),
+                prefixIcon: const Icon(Icons.search, color: Color(0xFF6A1B9A)),
                 border: InputBorder.none,
                 contentPadding:
-                    EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
               ),
             ),
           ),
@@ -206,13 +207,13 @@ class _SearchLocationContentState extends State<SearchLocationContent> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Row(
+          Row(
             children: [
-              Icon(Icons.location_on, color: Color(0xFF6A1B9A), size: 24),
-              SizedBox(width: 8),
+              const Icon(Icons.location_on, color: Color(0xFF6A1B9A), size: 24),
+              const SizedBox(width: 8),
               Text(
-                'Locais por perto',
-                style: TextStyle(
+                S.of(context).t('home.nearby'),
+                style: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                   color: Color(0xFF6A1B9A),
@@ -254,13 +255,13 @@ class _SearchLocationContentState extends State<SearchLocationContent> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Row(
+          Row(
             children: [
-              Icon(Icons.filter_list, color: Color(0xFF6A1B9A), size: 24),
-              SizedBox(width: 8),
+              const Icon(Icons.filter_list, color: Color(0xFF6A1B9A), size: 24),
+              const SizedBox(width: 8),
               Text(
-                'Filtros',
-                style: TextStyle(
+                S.of(context).t('home.filters'),
+                style: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                   color: Color(0xFF6A1B9A),
@@ -289,13 +290,13 @@ class _SearchLocationContentState extends State<SearchLocationContent> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Row(
+          Row(
             children: [
-              Icon(Icons.explore, color: Color(0xFF6A1B9A), size: 24),
-              SizedBox(width: 8),
+              const Icon(Icons.explore, color: Color(0xFF6A1B9A), size: 24),
+              const SizedBox(width: 8),
               Text(
-                'Locais para conhecer',
-                style: TextStyle(
+                S.of(context).t('home.to_visit'),
+                style: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                   color: Color(0xFF6A1B9A),
@@ -541,9 +542,9 @@ class _SearchLocationContentState extends State<SearchLocationContent> {
                         borderRadius: BorderRadius.circular(8),
                       ),
                     ),
-                    child: const Text(
-                      'Ver Detalhes',
-                      style: TextStyle(
+                    child: Text(
+                      S.of(context).t('home.details'),
+                      style: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
                       ),
