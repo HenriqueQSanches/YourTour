@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../services/locale_controller.dart';
+import '../../i18n/strings.dart';
 
 class LanguagePage extends StatefulWidget {
   const LanguagePage({super.key});
@@ -8,7 +10,7 @@ class LanguagePage extends StatefulWidget {
 }
 
 class _LanguagePageState extends State<LanguagePage> {
-  String _selectedLanguage = 'Português (Brasil)';
+  String _selectedCode = 'pt';
 
   final List<Map<String, String>> languages = [
     {'code': 'pt', 'name': 'Português (Brasil)', 'flag': '🇧🇷'},
@@ -25,9 +27,11 @@ class _LanguagePageState extends State<LanguagePage> {
 
   @override
   Widget build(BuildContext context) {
+    // Sync com locale atual
+    _selectedCode = LocaleController.current.value.languageCode;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Idioma'),
+        title: Text(S.of(context).t('lang.title')),
         backgroundColor: const Color(0xFF6A1B9A),
         foregroundColor: Colors.white,
         leading: IconButton(
@@ -40,17 +44,17 @@ class _LanguagePageState extends State<LanguagePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Card(
+            Card(
               elevation: 2,
               child: Padding(
-                padding: EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(16.0),
                 child: Row(
                   children: [
-                    Icon(Icons.public, color: Color(0xFF6A1B9A), size: 24),
-                    SizedBox(width: 12),
+                    const Icon(Icons.public, color: Color(0xFF6A1B9A), size: 24),
+                    const SizedBox(width: 12),
                     Text(
-                      'Selecione o idioma do aplicativo',
-                      style: TextStyle(
+                      S.of(context).t('lang.select'),
+                      style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
                         color: Color(0xFF6A1B9A),
@@ -80,13 +84,12 @@ class _LanguagePageState extends State<LanguagePage> {
                           fontWeight: FontWeight.w500,
                         ),
                       ),
-                      trailing: _selectedLanguage == language['name']
+                      trailing: _selectedCode == language['code']
                           ? const Icon(Icons.check_circle, color: Color(0xFF6A1B9A))
                           : null,
                       onTap: () {
-                        setState(() {
-                          _selectedLanguage = language['name']!;
-                        });
+                        LocaleController.setLocaleCode(language['code']!);
+                        setState(() => _selectedCode = language['code']!);
                         _showLanguageChangedDialog(context, language['name']!);
                       },
                     ),
@@ -105,14 +108,14 @@ class _LanguagePageState extends State<LanguagePage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Idioma Alterado'),
-          content: Text('O idioma foi alterado para $language'),
+          title: Text(S.of(context).t('dialog.language_changed')),
+          content: Text(S.of(context).t('dialog.language_changed_to').replaceFirst('{lang}', language)),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: const Text('OK'),
+              child: Text(S.of(context).t('dialog.ok')),
             ),
           ],
         );

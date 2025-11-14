@@ -19,7 +19,10 @@ dependencies:
   path: ^1.9.0
   instagram_chat:
     path: Downloads/chat/youtour_chat
+  shared_preferences: ^2.3.2
   sqlite3: 2.4.0
+  flutter_localizations:
+    sdk: flutter
 
 dev_dependencies:
   flutter_test:
