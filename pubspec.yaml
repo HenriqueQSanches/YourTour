@@ -17,6 +17,8 @@ dependencies:
   sqflite: ^2.3.3+1
   sqflite_common_ffi: ^2.3.2+1
   path: ^1.9.0
+  instagram_chat:
+    path: Downloads/chat/youtour_chat
   sqlite3: 2.4.0
 
 dev_dependencies:

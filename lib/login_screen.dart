@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'models/user.dart';
 import 'services/user_service.dart';
 import 'screens/home/home_screen.dart';
+import 'services/session_manager.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -76,6 +77,9 @@ class _LoginScreenState extends State<LoginScreen> {
               backgroundColor: Colors.green,
             ),
           );
+
+          // Guardar usuário logado na sessão
+          SessionManager.setCurrentUser(user);
 
           // Limpar campos
           _emailController.clear();
