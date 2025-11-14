@@ -3,6 +3,7 @@ import 'package:you_tour_app/screens/profile/profile_screen.dart';
 import 'location_details_screen.dart';
 import '../widgets/filter_option.dart';
 import '../../data/mock_data.dart';
+import 'package:instagram_chat/screens/chat_list_screen.dart';
 
 class SearchLocationContent extends StatefulWidget {
   const SearchLocationContent({super.key});
@@ -91,6 +92,18 @@ class _SearchLocationContentState extends State<SearchLocationContent> {
                 onPressed: () {},
                 icon:
                     const Icon(Icons.airplanemode_active, color: Colors.white),
+              ),
+              IconButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ChatListScreen(),
+                    ),
+                  );
+                },
+                icon: const Icon(Icons.chat_bubble_outline, color: Colors.white),
+                tooltip: 'Chat',
               ),
               const SizedBox(width: 8),
               Container(

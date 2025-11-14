@@ -5,6 +5,7 @@ import '../settings/user_data_page.dart';
 import '../favorites/favorites_screen.dart';
 import '../../screens/home/home_screen.dart'; // Caminho corrigido para a HomeScreen
 import '../../login_screen.dart';
+import '../../services/session_manager.dart';
 
 class ConfigMainScreen extends StatelessWidget {
   const ConfigMainScreen({super.key});
@@ -175,6 +176,7 @@ class ConfigMainScreen extends StatelessWidget {
   }
 
   Widget _buildUserInfo() {
+    final user = SessionManager.currentUser;
     return Container(
       padding: const EdgeInsets.all(10), // Reduzido de 12 para 10
       decoration: BoxDecoration(
@@ -196,8 +198,8 @@ class ConfigMainScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'João Silva',
+                Text(
+                  user?.userName ?? 'Usuário',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 13, // Reduzido de 14 para 13
@@ -213,7 +215,7 @@ class ConfigMainScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  'joao.silva@email.com',
+                  user?.userEmail ?? '',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 10, // Reduzido de 11 para 10
@@ -229,20 +231,7 @@ class ConfigMainScreen extends StatelessWidget {
               ],
             ),
           ),
-          Container(
-            decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.2),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: IconButton(
-              onPressed: () {
-                // Editar perfil
-              },
-              icon: const Icon(Icons.edit,
-                  color: Colors.white, size: 16), // Reduzido de 18 para 16
-              padding: const EdgeInsets.all(4), // Adicionado padding menor
-            ),
-          ),
+          // Sem botão de edição nesta tela (somente leitura)
         ],
       ),
     );
