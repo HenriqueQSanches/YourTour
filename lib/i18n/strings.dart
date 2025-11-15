@@ -19,6 +19,11 @@ class S {
         'app.help_policies': 'Ajuda & Políticas',
         'app.my_data': 'Meus Dados',
         'app.sign_out': 'Sair',
+        // navbar
+        'nav.home': 'Início',
+        'nav.favorites': 'Favoritos',
+        'nav.map': 'Mapa',
+        'nav.settings': 'Configurações',
         // idioma
         'lang.title': 'Idioma',
         'lang.select': 'Selecione o idioma do aplicativo',
@@ -55,6 +60,11 @@ class S {
         'app.help_policies': 'Help & Policies',
         'app.my_data': 'My Data',
         'app.sign_out': 'Sign out',
+        // navbar
+        'nav.home': 'Home',
+        'nav.favorites': 'Favorites',
+        'nav.map': 'Map',
+        'nav.settings': 'Settings',
         // language
         'lang.title': 'Language',
         'lang.select': 'Select the app language',
@@ -83,6 +93,7 @@ class S {
         'home.to_visit': 'Places to visit',
         'home.details': 'See Details',
       },
+
     };
     final table = dict[languageCode] ?? dict['pt']!;
     return table[key] ?? key;

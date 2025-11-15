@@ -3,6 +3,7 @@ import 'package:you_tour_app/screens/profile/config_main_screen.dart';
 import 'search_location_content.dart';
 import '../favorites/favorites_screen.dart';
 import '../map/map_screen.dart';
+import '../../i18n/strings.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -47,22 +48,22 @@ class _HomeScreenState extends State<HomeScreen> {
         fontWeight: FontWeight.w600,
       ),
       unselectedLabelStyle: const TextStyle(fontSize: 12),
-      items: const [
+      items: [
         BottomNavigationBarItem(
-          icon: Icon(Icons.home),
-          label: 'Início',
+          icon: const Icon(Icons.home),
+          label: S.of(context).t('nav.home'),
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.favorite),
-          label: 'Favoritos',
+          icon: const Icon(Icons.favorite),
+          label: S.of(context).t('nav.favorites'),
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.map),
-          label: 'Mapa',
+          icon: const Icon(Icons.map),
+          label: S.of(context).t('nav.map'),
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.settings),
-          label: 'Configurações',
+          icon: const Icon(Icons.settings),
+          label: S.of(context).t('nav.settings'),
         ),
       ],
     );
