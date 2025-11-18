@@ -3,6 +3,7 @@ import 'package:you_tour_app/screens/profile/config_main_screen.dart';
 import 'search_location_content.dart';
 import '../favorites/favorites_screen.dart';
 import '../map/map_screen.dart';
+import '../feed/feed_screen.dart'; // Importe a tela de feed
 import '../../i18n/strings.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -17,6 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final List<Widget> _screens = [
     const SearchLocationContent(),
+    const FeedScreen(), // Adicione a tela de feed
     const FavoritesScreen(),
     const MapScreen(),
     const ConfigMainScreen(),
@@ -52,6 +54,12 @@ class _HomeScreenState extends State<HomeScreen> {
         BottomNavigationBarItem(
           icon: const Icon(Icons.home),
           label: S.of(context).t('nav.home'),
+        ),
+        BottomNavigationBarItem(
+          icon: const Icon(Icons.feed), // Ícone para feed
+          label: S
+              .of(context)
+              .t('nav.feed'), // Você precisará adicionar esta tradução
         ),
         BottomNavigationBarItem(
           icon: const Icon(Icons.favorite),
