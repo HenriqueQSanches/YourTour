@@ -16,13 +16,6 @@ class _LanguagePageState extends State<LanguagePage> {
     {'code': 'pt', 'name': 'Português (Brasil)', 'flag': '🇧🇷'},
     {'code': 'en', 'name': 'English (US)', 'flag': '🇺🇸'},
     {'code': 'es', 'name': 'Español', 'flag': '🇪🇸'},
-    {'code': 'fr', 'name': 'Français', 'flag': '🇫🇷'},
-    {'code': 'de', 'name': 'Deutsch', 'flag': '🇩🇪'},
-    {'code': 'it', 'name': 'Italiano', 'flag': '🇮🇹'},
-    {'code': 'ja', 'name': '日本語', 'flag': '🇯🇵'},
-    {'code': 'zh', 'name': '中文', 'flag': '🇨🇳'},
-    {'code': 'ar', 'name': 'العربية', 'flag': '🇸🇦'},
-    {'code': 'ru', 'name': 'Русский', 'flag': '🇷🇺'},
   ];
 
   @override
@@ -50,7 +43,8 @@ class _LanguagePageState extends State<LanguagePage> {
                 padding: const EdgeInsets.all(16.0),
                 child: Row(
                   children: [
-                    const Icon(Icons.public, color: Color(0xFF6A1B9A), size: 24),
+                    const Icon(Icons.public,
+                        color: Color(0xFF6A1B9A), size: 24),
                     const SizedBox(width: 12),
                     Text(
                       S.of(context).t('lang.select'),
@@ -85,7 +79,8 @@ class _LanguagePageState extends State<LanguagePage> {
                         ),
                       ),
                       trailing: _selectedCode == language['code']
-                          ? const Icon(Icons.check_circle, color: Color(0xFF6A1B9A))
+                          ? const Icon(Icons.check_circle,
+                              color: Color(0xFF6A1B9A))
                           : null,
                       onTap: () {
                         LocaleController.setLocaleCode(language['code']!);
@@ -109,7 +104,10 @@ class _LanguagePageState extends State<LanguagePage> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(S.of(context).t('dialog.language_changed')),
-          content: Text(S.of(context).t('dialog.language_changed_to').replaceFirst('{lang}', language)),
+          content: Text(S
+              .of(context)
+              .t('dialog.language_changed_to')
+              .replaceFirst('{lang}', language)),
           actions: [
             TextButton(
               onPressed: () {

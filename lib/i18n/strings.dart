@@ -21,6 +21,7 @@ class S {
         'app.sign_out': 'Sair',
         // navbar
         'nav.home': 'Início',
+        'nav.feed': 'Feed',
         'nav.favorites': 'Favoritos',
         'nav.map': 'Mapa',
         'nav.settings': 'Configurações',
@@ -51,6 +52,17 @@ class S {
         'home.filters': 'Filtros',
         'home.to_visit': 'Locais para conhecer',
         'home.details': 'Ver Detalhes',
+        // feed
+        'feed.title': 'YouTour Feed',
+        'feed.empty_title': 'Nenhuma publicação ainda',
+        'feed.empty_subtitle':
+            'Seja o primeiro a compartilhar uma experiência turística!',
+        'feed.create_post': 'Criar Publicação',
+        'feed.caption_hint': 'Compartilhe sua experiência turística...',
+        'feed.location_hint': 'Localização',
+        'feed.post_created': 'Publicação criada!',
+        'common.cancel': 'Cancelar',
+        'common.post': 'Publicar',
       },
       'en': {
         // general
@@ -62,6 +74,7 @@ class S {
         'app.sign_out': 'Sign out',
         // navbar
         'nav.home': 'Home',
+        'nav.feed': 'Feed',
         'nav.favorites': 'Favorites',
         'nav.map': 'Map',
         'nav.settings': 'Settings',
@@ -92,12 +105,19 @@ class S {
         'home.filters': 'Filters',
         'home.to_visit': 'Places to visit',
         'home.details': 'See Details',
+        // feed
+        'feed.title': 'YouTour Feed',
+        'feed.empty_title': 'No posts yet',
+        'feed.empty_subtitle': 'Be the first to share a travel experience!',
+        'feed.create_post': 'Create Post',
+        'feed.caption_hint': 'Share your travel experience...',
+        'feed.location_hint': 'Location',
+        'feed.post_created': 'Post created!',
+        'common.cancel': 'Cancel',
+        'common.post': 'Post',
       },
-
     };
     final table = dict[languageCode] ?? dict['pt']!;
     return table[key] ?? key;
   }
 }
-
-
