@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:io' show Platform;
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
-import 'screens/home/home_screen.dart';
 import 'cadastro_screen.dart';
 import 'screens/forgot_password_screen.dart';
 import 'login_screen.dart';

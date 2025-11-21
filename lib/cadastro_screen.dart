@@ -110,13 +110,13 @@ class _CadastroScreenState extends State<CadastroScreen> {
   }
 
   void _cadastrar() async {
-    print('🔵 [CADASTRO] Iniciando processo de cadastro...');
+    debugPrint('🔵 [CADASTRO] Iniciando processo de cadastro...');
     
     if (_formKey.currentState!.validate()) {
-      print('🔵 [CADASTRO] Validação do formulário passou');
+      debugPrint('🔵 [CADASTRO] Validação do formulário passou');
       
       if (!_termosAceitos) {
-        print('🔴 [CADASTRO] Termos não aceitos');
+        debugPrint('🔴 [CADASTRO] Termos não aceitos');
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Você deve aceitar os termos e condições'),
@@ -127,7 +127,7 @@ class _CadastroScreenState extends State<CadastroScreen> {
       }
 
       if (_captchaController.text.toUpperCase() != _captchaGerado) {
-        print('🔴 [CADASTRO] CAPTCHA incorreto');
+        debugPrint('🔴 [CADASTRO] CAPTCHA incorreto');
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Código CAPTCHA incorreto'),
@@ -138,13 +138,13 @@ class _CadastroScreenState extends State<CadastroScreen> {
         return;
       }
 
-      print('🔵 [CADASTRO] Iniciando loading...');
+      debugPrint('🔵 [CADASTRO] Iniciando loading...');
       setState(() {
         _isLoading = true;
       });
 
       try {
-        print('🔵 [CADASTRO] Criando objeto User...');
+        debugPrint('🔵 [CADASTRO] Criando objeto User...');
         // Criar objeto User
         User newUser = User(
           userName: _nomeController.text,
@@ -155,13 +155,13 @@ class _CadastroScreenState extends State<CadastroScreen> {
           userCountry: _paisSelecionado!,
           userPassword: _senhaController.text,
         );
-        print('🔵 [CADASTRO] Objeto User criado: ${newUser.userName}');
+        debugPrint('🔵 [CADASTRO] Objeto User criado: ${newUser.userName}');
 
-        print('🔵 [CADASTRO] Validando dados do usuário...');
+        debugPrint('🔵 [CADASTRO] Validando dados do usuário...');
         // Validar dados
         String? validationError = _userService.validateUserData(newUser);
         if (validationError != null) {
-          print('🔴 [CADASTRO] Erro na validação: $validationError');
+          debugPrint('🔴 [CADASTRO] Erro na validação: $validationError');
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(validationError),
@@ -170,12 +170,13 @@ class _CadastroScreenState extends State<CadastroScreen> {
           );
           return;
         }
-        print('🔵 [CADASTRO] Validação passou');
+        debugPrint('🔵 [CADASTRO] Validação passou');
 
-        print('🔵 [CADASTRO] Chamando createUser...');
+        debugPrint('🔵 [CADASTRO] Chamando createUser...');
         // Criar usuário no banco de dados
         int userId = await _userService.createUser(newUser);
-        print('🔵 [CADASTRO] Usuário criado com ID: $userId');
+        if (!mounted) return;
+        debugPrint('🔵 [CADASTRO] Usuário criado com ID: $userId');
         
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -198,10 +199,11 @@ class _CadastroScreenState extends State<CadastroScreen> {
         });
 
         // Navegar para tela de login após cadastro bem-sucedido
+        if (!mounted) return;
         Navigator.pop(context);
         
       } catch (e) {
-        print('🔴 [CADASTRO] Erro capturado: $e');
+        debugPrint('🔴 [CADASTRO] Erro capturado: $e');
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Erro ao cadastrar: $e'),
@@ -209,13 +211,13 @@ class _CadastroScreenState extends State<CadastroScreen> {
           ),
         );
       } finally {
-        print('🔵 [CADASTRO] Finalizando loading...');
+        debugPrint('🔵 [CADASTRO] Finalizando loading...');
         setState(() {
           _isLoading = false;
         });
       }
     } else {
-      print('🔴 [CADASTRO] Validação do formulário falhou');
+      debugPrint('🔴 [CADASTRO] Validação do formulário falhou');
     }
   }
 
@@ -234,7 +236,7 @@ class _CadastroScreenState extends State<CadastroScreen> {
           ),
         ),
         child: Container(
-          color: Colors.black.withOpacity(0.4),
+          color: Colors.black.withAlpha((0.4 * 255).round()),
           child: Padding(
             padding: const EdgeInsets.all(20.0),
             child: Form(
@@ -311,7 +313,7 @@ class _CadastroScreenState extends State<CadastroScreen> {
                                 ),
                               ),
                               filled: true,
-                              fillColor: Colors.white.withOpacity(0.2),
+                              fillColor: Colors.white.withAlpha((0.2 * 255).round()),
                             ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
@@ -347,7 +349,7 @@ class _CadastroScreenState extends State<CadastroScreen> {
                                 ),
                               ),
                               filled: true,
-                              fillColor: Colors.white.withOpacity(0.2),
+                              fillColor: Colors.white.withAlpha((0.2 * 255).round()),
                             ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
@@ -391,7 +393,7 @@ class _CadastroScreenState extends State<CadastroScreen> {
                               hintText: '(11) 99999-9999',
                               hintStyle: const TextStyle(color: Colors.white70),
                               filled: true,
-                              fillColor: Colors.white.withOpacity(0.2),
+                              fillColor: Colors.white.withAlpha((0.2 * 255).round()),
                             ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
@@ -434,7 +436,7 @@ class _CadastroScreenState extends State<CadastroScreen> {
                                 onPressed: _selecionarData,
                               ),
                               filled: true,
-                              fillColor: Colors.white.withOpacity(0.2),
+                              fillColor: Colors.white.withAlpha((0.2 * 255).round()),
                             ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
@@ -448,8 +450,8 @@ class _CadastroScreenState extends State<CadastroScreen> {
 
                           // Gênero
                           DropdownButtonFormField<String>(
-                            value: _generoSelecionado,
-                            dropdownColor: Colors.black.withOpacity(0.9),
+                            initialValue: _generoSelecionado,
+                            dropdownColor: Colors.black.withAlpha((0.9 * 255).round()),
                             style: const TextStyle(color: Colors.white),
                             decoration: InputDecoration(
                               labelText: 'Gênero*',
@@ -468,7 +470,7 @@ class _CadastroScreenState extends State<CadastroScreen> {
                                 ),
                               ),
                               filled: true,
-                              fillColor: Colors.white.withOpacity(0.2),
+                              fillColor: Colors.white.withAlpha((0.2 * 255).round()),
                             ),
                             icon: const Icon(
                               Icons.arrow_drop_down,
@@ -508,8 +510,8 @@ class _CadastroScreenState extends State<CadastroScreen> {
 
                           // País
                           DropdownButtonFormField<String>(
-                            value: _paisSelecionado,
-                            dropdownColor: Colors.black.withOpacity(0.9),
+                            initialValue: _paisSelecionado,
+                            dropdownColor: Colors.black.withAlpha((0.9 * 255).round()),
                             style: const TextStyle(color: Colors.white),
                             decoration: InputDecoration(
                               labelText: 'País*',
@@ -528,7 +530,7 @@ class _CadastroScreenState extends State<CadastroScreen> {
                                 ),
                               ),
                               filled: true,
-                              fillColor: Colors.white.withOpacity(0.2),
+                              fillColor: Colors.white.withAlpha((0.2 * 255).round()),
                             ),
                             icon: const Icon(
                               Icons.arrow_drop_down,
@@ -589,7 +591,7 @@ class _CadastroScreenState extends State<CadastroScreen> {
                                 },
                               ),
                               filled: true,
-                              fillColor: Colors.white.withOpacity(0.2),
+                              fillColor: Colors.white.withAlpha((0.2 * 255).round()),
                             ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
@@ -639,7 +641,7 @@ class _CadastroScreenState extends State<CadastroScreen> {
                                 },
                               ),
                               filled: true,
-                              fillColor: Colors.white.withOpacity(0.2),
+                              fillColor: Colors.white.withAlpha((0.2 * 255).round()),
                               contentPadding: const EdgeInsets.symmetric(
                                 vertical: 12,
                                 horizontal: 16,
@@ -660,10 +662,10 @@ class _CadastroScreenState extends State<CadastroScreen> {
                           // CAPTCHA
                           Container(
                             decoration: BoxDecoration(
-                              color: Colors.black.withOpacity(0.6),
+                              color: Colors.black.withAlpha((0.6 * 255).round()),
                               borderRadius: BorderRadius.circular(12),
                               border: Border.all(
-                                color: Colors.white.withOpacity(0.3),
+                                color: Colors.white.withAlpha((0.3 * 255).round()),
                               ),
                             ),
                             padding: const EdgeInsets.all(12.0),
@@ -717,9 +719,7 @@ class _CadastroScreenState extends State<CadastroScreen> {
                                             ),
                                           ),
                                           filled: true,
-                                          fillColor: Colors.white.withOpacity(
-                                            0.2,
-                                          ),
+                                          fillColor: Colors.white.withAlpha((0.2 * 255).round()),
                                           contentPadding:
                                               const EdgeInsets.symmetric(
                                                 vertical: 8,
@@ -754,10 +754,10 @@ class _CadastroScreenState extends State<CadastroScreen> {
                           // Termos e Condições
                           Container(
                             decoration: BoxDecoration(
-                              color: Colors.black.withOpacity(0.6),
+                              color: Colors.black.withAlpha((0.6 * 255).round()),
                               borderRadius: BorderRadius.circular(12),
                               border: Border.all(
-                                color: Colors.white.withOpacity(0.3),
+                                color: Colors.white.withAlpha((0.3 * 255).round()),
                               ),
                             ),
                             padding: const EdgeInsets.all(10),
@@ -788,7 +788,7 @@ class _CadastroScreenState extends State<CadastroScreen> {
                                         context: context,
                                         builder: (context) => Dialog(
                                           backgroundColor: Colors.black
-                                              .withOpacity(0.9),
+                                              .withAlpha((0.9 * 255).round()),
                                           shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.circular(
                                               16,
@@ -919,15 +919,15 @@ class _CadastroScreenState extends State<CadastroScreen> {
                               vertical: 12,
                             ),
                             decoration: BoxDecoration(
-                              color: Colors.black.withOpacity(0.6),
+                              color: Colors.black.withAlpha((0.6 * 255).round()),
                               borderRadius: BorderRadius.circular(25),
                               border: Border.all(
-                                color: Colors.purpleAccent.withOpacity(0.8),
+                                color: Colors.purpleAccent.withAlpha((0.8 * 255).round()),
                                 width: 2,
                               ),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.purpleAccent.withOpacity(0.3),
+                                  color: Colors.purpleAccent.withAlpha((0.3 * 255).round()),
                                   blurRadius: 10,
                                   offset: const Offset(0, 4),
                                 ),

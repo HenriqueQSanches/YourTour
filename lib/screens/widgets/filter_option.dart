@@ -17,7 +17,7 @@ class FilterOption extends StatelessWidget {
           width: 40,
           height: 40,
           decoration: BoxDecoration(
-            color: const Color(0xFF6A1B9A).withOpacity(0.1),
+            color: const Color(0xFF6A1B9A).withAlpha((0.1 * 255).round()),
             borderRadius: BorderRadius.circular(10),
           ),
           child: const Icon(
@@ -37,7 +37,7 @@ class FilterOption extends StatelessWidget {
         trailing: Container(
           padding: const EdgeInsets.all(4),
           decoration: BoxDecoration(
-            color: const Color(0xFF6A1B9A).withOpacity(0.1),
+            color: const Color(0xFF6A1B9A).withAlpha((0.1 * 255).round()),
             borderRadius: BorderRadius.circular(6),
           ),
           child: const Icon(

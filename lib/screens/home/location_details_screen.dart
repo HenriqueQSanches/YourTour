@@ -36,7 +36,7 @@ class LocationDetailsScreen extends StatelessWidget {
                         end: Alignment.bottomCenter,
                         colors: [
                           Colors.transparent,
-                          const Color(0xFF6A1B9A).withOpacity(0.8),
+                          const Color(0xFF6A1B9A).withAlpha((0.8 * 255).round()),
                         ],
                       ),
                     ),
@@ -198,11 +198,11 @@ class LocationDetailsScreen extends StatelessWidget {
                                         horizontal: 12, vertical: 6),
                                     decoration: BoxDecoration(
                                       color: const Color(0xFF6A1B9A)
-                                          .withOpacity(0.1),
+                                          .withAlpha((0.1 * 255).round()),
                                       borderRadius: BorderRadius.circular(20),
                                       border: Border.all(
                                         color: const Color(0xFF6A1B9A)
-                                            .withOpacity(0.3),
+                                            .withAlpha((0.3 * 255).round()),
                                       ),
                                     ),
                                     child: Row(

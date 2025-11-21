@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:flutter/foundation.dart';
 
 class CodeGenerator {
   static const int _codeLength = 6;
@@ -29,7 +30,7 @@ class CodeGenerator {
       final expiry = DateTime.parse(expiryTime);
       return DateTime.now().isAfter(expiry);
     } catch (e) {
-      print('🔴 [CODE_GENERATOR] Erro ao verificar expiração: $e');
+      debugPrint('🔴 [CODE_GENERATOR] Erro ao verificar expiração: $e');
       return true; // Se não conseguir parsear, considera expirado
     }
   }
@@ -53,7 +54,7 @@ class CodeGenerator {
       
       return difference.inMinutes;
     } catch (e) {
-      print('🔴 [CODE_GENERATOR] Erro ao calcular tempo restante: $e');
+      debugPrint('🔴 [CODE_GENERATOR] Erro ao calcular tempo restante: $e');
       return 0;
     }
   }
