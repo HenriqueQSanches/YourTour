@@ -37,7 +37,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
         ),
         child: Container(
-          color: Colors.black.withOpacity(0.4),
+          color: Colors.black.withAlpha((0.4 * 255).round()),
           child: Padding(
             padding: const EdgeInsets.all(20.0),
             child: Column(
@@ -89,7 +89,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             Shadow(
                               offset: Offset(2, 2),
                               blurRadius: 4,
-                              color: Colors.black.withOpacity(0.5),
+                              color: Colors.black.withAlpha((0.5 * 255).round()),
                             ),
                           ],
                         ),
@@ -114,15 +114,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   child: SingleChildScrollView(
                     child: Container(
                       decoration: BoxDecoration(
-                        color: Colors.black.withOpacity(0.6),
+                        color: Colors.black.withAlpha((0.6 * 255).round()),
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(
-                          color: Colors.white.withOpacity(0.3),
+                          color: Colors.white.withAlpha((0.3 * 255).round()),
                           width: 1,
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.3),
+                            color: Colors.black.withAlpha((0.3 * 255).round()),
                             blurRadius: 10,
                             offset: const Offset(0, 5),
                           ),
@@ -138,7 +138,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               Container(
                                 padding: const EdgeInsets.all(12),
                                 decoration: BoxDecoration(
-                                  color: Colors.purpleAccent.withOpacity(0.2),
+                                  color: Colors.purpleAccent.withAlpha((0.2 * 255).round()),
                                   borderRadius: BorderRadius.circular(50),
                                   border: Border.all(
                                     color: Colors.purpleAccent,
@@ -252,7 +252,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         icon: const Icon(Icons.edit, size: 18),
                         label: const Text('EDITAR'),
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blue.withOpacity(0.8),
+                          backgroundColor: Colors.blue.withAlpha((0.8 * 255).round()),
                           foregroundColor: Colors.white,
                           padding: const EdgeInsets.symmetric(vertical: 16),
                           shape: RoundedRectangleBorder(
@@ -269,7 +269,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         icon: const Icon(Icons.delete_forever, size: 18),
                         label: const Text('EXCLUIR'),
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.red.withOpacity(0.8),
+                          backgroundColor: Colors.red.withAlpha((0.8 * 255).round()),
                           foregroundColor: Colors.white,
                           padding: const EdgeInsets.symmetric(vertical: 16),
                           shape: RoundedRectangleBorder(
@@ -290,7 +290,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   icon: const Icon(Icons.logout, size: 18),
                   label: const Text('SAIR'),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.grey.withOpacity(0.8),
+                    backgroundColor: Colors.grey.withAlpha((0.8 * 255).round()),
                     foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(
@@ -319,10 +319,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
       margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.1),
+        color: Colors.white.withAlpha((0.1 * 255).round()),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: color.withOpacity(0.3),
+          color: color.withAlpha((0.3 * 255).round()),
           width: 1,
         ),
       ),
@@ -331,7 +331,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: color.withOpacity(0.2),
+              color: color.withAlpha((0.2 * 255).round()),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Icon(
@@ -391,7 +391,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         return '$age anos';
       }
     } catch (e) {
-      print('Erro ao calcular idade: $e');
+      debugPrint('Erro ao calcular idade: $e');
     }
     return 'N/A';
   }
@@ -415,7 +415,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: Colors.black.withOpacity(0.9),
+        backgroundColor: Colors.black.withAlpha((0.9 * 255).round()),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
         ),
@@ -480,7 +480,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     try {
       // Deletar usuário do banco de dados
       bool success = await _userService.deleteUser(_currentUser.userId!);
-      
+      if (!mounted) return;
       Navigator.pop(context);
       
       if (success) {
@@ -488,7 +488,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            backgroundColor: Colors.black.withOpacity(0.9),
+            backgroundColor: Colors.black.withAlpha((0.9 * 255).round()),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16),
             ),
@@ -534,7 +534,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
         );
       }
     } catch (e) {
-      Navigator.pop(context);
+      if (mounted) Navigator.pop(context);
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Erro ao excluir conta: $e'),
@@ -548,7 +549,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: Colors.black.withOpacity(0.9),
+        backgroundColor: Colors.black.withAlpha((0.9 * 255).round()),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
         ),
@@ -646,7 +647,7 @@ class _EditProfileDialogState extends State<_EditProfileDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      backgroundColor: Colors.black.withOpacity(0.9),
+      backgroundColor: Colors.black.withAlpha((0.9 * 255).round()),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
       ),
@@ -742,14 +743,14 @@ class _EditProfileDialogState extends State<_EditProfileDialog> {
           borderSide: const BorderSide(color: Colors.blue),
         ),
         filled: true,
-        fillColor: Colors.white.withOpacity(0.1),
+        fillColor: Colors.white.withAlpha((0.1 * 255).round()),
       ),
     );
   }
 
   Widget _buildGenderDropdown() {
     return DropdownButtonFormField<String>(
-      value: _selectedGender.isNotEmpty ? _selectedGender : null,
+      initialValue: _selectedGender.isNotEmpty ? _selectedGender : null,
       decoration: InputDecoration(
         labelText: 'Gênero',
         labelStyle: const TextStyle(color: Colors.white70),
@@ -763,9 +764,9 @@ class _EditProfileDialogState extends State<_EditProfileDialog> {
           borderSide: const BorderSide(color: Colors.blue),
         ),
         filled: true,
-        fillColor: Colors.white.withOpacity(0.1),
+        fillColor: Colors.white.withAlpha((0.1 * 255).round()),
       ),
-      dropdownColor: Colors.black.withOpacity(0.9),
+      dropdownColor: Colors.black.withAlpha((0.9 * 255).round()),
       style: const TextStyle(color: Colors.white),
       items: const [
         DropdownMenuItem(value: 'Masculino', child: Text('Masculino')),
@@ -821,16 +822,17 @@ class _EditProfileDialogState extends State<_EditProfileDialog> {
     try {
       // Atualizar usuário no banco de dados
       bool success = await widget.userService.updateUser(updatedUser);
-      
+      if (!mounted) return;
       Navigator.pop(context);
-      
+
       if (success) {
-        Navigator.pop(context); 
-        
+        Navigator.pop(context);
+
         // Atualizar o usuário na tela
         widget.onUpdate(updatedUser);
-        
+
         // Mostrar confirmação de sucesso
+        if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Perfil atualizado com sucesso!'),
@@ -838,6 +840,7 @@ class _EditProfileDialogState extends State<_EditProfileDialog> {
           ),
         );
       } else {
+        if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Erro ao atualizar perfil. Tente novamente.'),
@@ -846,7 +849,8 @@ class _EditProfileDialogState extends State<_EditProfileDialog> {
         );
       }
     } catch (e) {
-      Navigator.pop(context); 
+      if (mounted) Navigator.pop(context);
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Erro ao atualizar perfil: $e'),

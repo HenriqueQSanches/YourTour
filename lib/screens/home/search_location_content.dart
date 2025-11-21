@@ -196,7 +196,7 @@ class _SearchLocationContentState extends State<SearchLocationContent> {
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: const Color(0xFF6A1B9A).withOpacity(0.1),
+              color: const Color(0xFF6A1B9A).withAlpha((0.1 * 255).round()),
               blurRadius: 12,
               offset: const Offset(0, 4),
             ),
@@ -224,7 +224,7 @@ class _SearchLocationContentState extends State<SearchLocationContent> {
           Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: const Color(0xFF6A1B9A).withOpacity(0.1),
+              color: const Color(0xFF6A1B9A).withAlpha((0.1 * 255).round()),
               shape: BoxShape.circle,
             ),
             child: Icon(icon, color: const Color(0xFF6A1B9A), size: 20),
@@ -310,7 +310,7 @@ class _SearchLocationContentState extends State<SearchLocationContent> {
                       end: Alignment.bottomCenter,
                       colors: [
                         Colors.transparent,
-                        Colors.black.withOpacity(0.6),
+                        Colors.black.withAlpha((0.6 * 255).round()),
                       ],
                     ),
                   ),
@@ -324,7 +324,7 @@ class _SearchLocationContentState extends State<SearchLocationContent> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 6, vertical: 3),
                       decoration: BoxDecoration(
-                        color: Colors.black.withOpacity(0.7),
+                        color: Colors.black.withAlpha((0.7 * 255).round()),
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Row(

@@ -116,6 +116,58 @@ class S {
         'common.cancel': 'Cancel',
         'common.post': 'Post',
       },
+      'es': {
+        // generales
+        'app.settings': 'Configuración',
+        'app.language': 'Idioma',
+        'app.favorites': 'Favoritos',
+        'app.help_policies': 'Ayuda y Políticas',
+        'app.my_data': 'Mis Datos',
+        'app.sign_out': 'Cerrar sesión',
+        // navbar
+        'nav.home': 'Inicio',
+        'nav.feed': 'Feed',
+        'nav.favorites': 'Favoritos',
+        'nav.map': 'Mapa',
+        'nav.settings': 'Configuración',
+        // idioma
+        'lang.title': 'Idioma',
+        'lang.select': 'Seleccione el idioma de la aplicación',
+        'dialog.ok': 'OK',
+        'dialog.language_changed': 'Idioma cambiado',
+        'dialog.language_changed_to': 'El idioma se cambió a {lang}',
+        // login
+        'login.welcome': '¡Bienvenido de nuevo!',
+        'login.subtitle': 'Inicia sesión para continuar tu viaje',
+        'login.email': 'Correo electrónico*',
+        'login.password': 'Contraseña*',
+        'login.forgot': '¿Olvidaste tu contraseña?',
+        'login.captcha': 'Verificación CAPTCHA',
+        'login.captcha_hint': 'Ingrese el código',
+        'login.or': 'o',
+        'login.google': 'Continuar con Google',
+        'login.no_account': '¿No tienes una cuenta?',
+        'login.signup': 'REGISTRARSE',
+        'login.signin': 'INICIAR SESIÓN',
+        // search/home
+        'home.welcome_title': 'YourTour',
+        'home.welcome_sub': 'Descubre lugares increíbles',
+        'home.search_hint': 'Busca tu ubicación...',
+        'home.nearby': 'Lugares cercanos',
+        'home.filters': 'Filtros',
+        'home.to_visit': 'Lugares para visitar',
+        'home.details': 'Ver detalles',
+        // feed
+        'feed.title': 'YouTour Feed',
+        'feed.empty_title': 'Aún no hay publicaciones',
+        'feed.empty_subtitle': '¡Sé el primero en compartir una experiencia de viaje!',
+        'feed.create_post': 'Crear publicación',
+        'feed.caption_hint': 'Comparte tu experiencia de viaje...',
+        'feed.location_hint': 'Ubicación',
+        'feed.post_created': '¡Publicación creada!',
+        'common.cancel': 'Cancelar',
+        'common.post': 'Publicar',
+      },
     };
     final table = dict[languageCode] ?? dict['pt']!;
     return table[key] ?? key;

@@ -75,7 +75,7 @@ class ConfigMainScreen extends StatelessWidget {
               // Botão de voltar
               Container(
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.3),
+                  color: Colors.white.withAlpha((0.3 * 255).round()),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: IconButton(
@@ -181,9 +181,9 @@ class ConfigMainScreen extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(10), // Reduzido de 12 para 10
       decoration: BoxDecoration(
-        color: Colors.black.withOpacity(0.3),
+        color: Colors.black.withAlpha((0.3 * 255).round()),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.white.withOpacity(0.3)),
+        border: Border.all(color: Colors.white.withAlpha((0.3 * 255).round())),
       ),
       child: Row(
         children: [
@@ -332,7 +332,7 @@ class ConfigMainScreen extends StatelessWidget {
           width: 40,
           height: 40,
           decoration: BoxDecoration(
-            color: item.color.withOpacity(0.1),
+            color: item.color.withAlpha((0.1 * 255).round()),
             borderRadius: BorderRadius.circular(10),
           ),
           child: Icon(
@@ -421,14 +421,14 @@ class ConfigMainScreen extends StatelessWidget {
       elevation: 1,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: Colors.red.withOpacity(0.2)),
+        side: BorderSide(color: Colors.red.withAlpha((0.2 * 255).round())),
       ),
       child: ListTile(
         leading: Container(
           width: 40,
           height: 40,
           decoration: BoxDecoration(
-            color: Colors.red.withOpacity(0.1),
+            color: Colors.red.withAlpha((0.1 * 255).round()),
             borderRadius: BorderRadius.circular(10),
           ),
           child: const Icon(

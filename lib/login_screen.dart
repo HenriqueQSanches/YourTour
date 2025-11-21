@@ -70,6 +70,8 @@ class _LoginScreenState extends State<LoginScreen> {
           _senhaController.text,
         );
 
+        if (!mounted) return;
+
         if (user != null) {
           // Login bem-sucedido
           ScaffoldMessenger.of(context).showSnackBar(
@@ -97,6 +99,7 @@ class _LoginScreenState extends State<LoginScreen> {
           );
         } else {
           // Credenciais inválidas
+          if (!mounted) return;
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               content: Text('Email ou senha incorretos'),
@@ -106,6 +109,7 @@ class _LoginScreenState extends State<LoginScreen> {
           _gerarCaptcha();
         }
       } catch (e) {
+        if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Erro ao fazer login: $e'),
@@ -140,7 +144,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ),
         child: Container(
-          color: Colors.black.withOpacity(0.4),
+          color: Colors.black.withAlpha((0.4 * 255).round()),
           child: Padding(
             padding: const EdgeInsets.all(20.0),
             child: Form(
@@ -228,7 +232,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                               ),
                               filled: true,
-                              fillColor: Colors.white.withOpacity(0.2),
+                              fillColor: Colors.white.withAlpha((0.2 * 255).round()),
                             ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
@@ -279,7 +283,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 },
                               ),
                               filled: true,
-                              fillColor: Colors.white.withOpacity(0.2),
+                              fillColor: Colors.white.withAlpha((0.2 * 255).round()),
                             ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
@@ -309,10 +313,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           // CAPTCHA
                           Container(
                             decoration: BoxDecoration(
-                              color: Colors.black.withOpacity(0.6),
+                              color: Colors.black.withAlpha((0.6 * 255).round()),
                               borderRadius: BorderRadius.circular(12),
                               border: Border.all(
-                                color: Colors.white.withOpacity(0.3),
+                                color: Colors.white.withAlpha((0.3 * 255).round()),
                               ),
                             ),
                             padding: const EdgeInsets.all(12.0),
@@ -366,9 +370,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                             ),
                                           ),
                                           filled: true,
-                                          fillColor: Colors.white.withOpacity(
-                                            0.2,
-                                          ),
+                                          fillColor: Colors.white.withAlpha((0.2 * 255).round()),
                                           contentPadding:
                                               const EdgeInsets.symmetric(
                                                 vertical: 8,
@@ -466,7 +468,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             children: [
                               Expanded(
                                 child: Divider(
-                                  color: Colors.white.withOpacity(0.3),
+                                  color: Colors.white.withAlpha((0.3 * 255).round()),
                                 ),
                               ),
                               Padding(
@@ -476,14 +478,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                 child: Text(
                                   S.of(context).t('login.or'),
                                   style: TextStyle(
-                                    color: Colors.white.withOpacity(0.7),
+                                    color: Colors.white.withAlpha((0.7 * 255).round()),
                                     fontSize: 12,
                                   ),
                                 ),
                               ),
                               Expanded(
                                 child: Divider(
-                                  color: Colors.white.withOpacity(0.3),
+                                  color: Colors.white.withAlpha((0.3 * 255).round()),
                                 ),
                               ),
                             ],
@@ -503,7 +505,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   borderRadius: BorderRadius.circular(12),
                                 ),
                                 side: BorderSide(
-                                  color: Colors.white.withOpacity(0.3),
+                                  color: Colors.white.withAlpha((0.3 * 255).round()),
                                 ),
                               ),
                               child: Row(
@@ -533,15 +535,15 @@ class _LoginScreenState extends State<LoginScreen> {
                               vertical: 12,
                             ),
                             decoration: BoxDecoration(
-                              color: Colors.black.withOpacity(0.6),
+                              color: Colors.black.withAlpha((0.6 * 255).round()),
                               borderRadius: BorderRadius.circular(25),
                               border: Border.all(
-                                color: Colors.purpleAccent.withOpacity(0.8),
+                                color: Colors.purpleAccent.withAlpha((0.8 * 255).round()),
                                 width: 2,
                               ),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.purpleAccent.withOpacity(0.3),
+                                  color: Colors.purpleAccent.withAlpha((0.3 * 255).round()),
                                   blurRadius: 10,
                                   offset: const Offset(0, 4),
                                 ),

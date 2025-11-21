@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 class EmailService {
@@ -12,16 +13,16 @@ class EmailService {
   /// Envia e-mail com código de reset de senha
   static Future<bool> sendPasswordResetCode(String toEmail, String resetCode) async {
     try {
-      print('🔵 [EMAIL_SERVICE] Enviando código de reset para: $toEmail');
+      debugPrint('🔵 [EMAIL_SERVICE] Enviando código de reset para: $toEmail');
       
       // Para desenvolvimento, vamos simular o envio
       // Em produção, substitua por uma chamada real à API de e-mail
       await _simulateEmailSending(toEmail, resetCode);
       
-      print('✅ [EMAIL_SERVICE] E-mail enviado com sucesso');
+      debugPrint('✅ [EMAIL_SERVICE] E-mail enviado com sucesso');
       return true;
     } catch (e) {
-      print('🔴 [EMAIL_SERVICE] Erro ao enviar e-mail: $e');
+      debugPrint('🔴 [EMAIL_SERVICE] Erro ao enviar e-mail: $e');
       return false;
     }
   }
@@ -31,14 +32,14 @@ class EmailService {
     // Simula delay de rede
     await Future.delayed(Duration(seconds: 2));
     
-    print('📧 [EMAIL_SERVICE] === E-MAIL SIMULADO ===');
-    print('📧 Para: $toEmail');
-    print('📧 Assunto: Código de Redefinição de Senha - YourTour');
-    print('📧 Conteúdo:');
-    print('📧 Seu código de redefinição de senha é: $resetCode');
-    print('📧 Este código expira em 15 minutos.');
-    print('📧 Se você não solicitou esta redefinição, ignore este e-mail.');
-    print('📧 ================================');
+    debugPrint('📧 [EMAIL_SERVICE] === E-MAIL SIMULADO ===');
+    debugPrint('📧 Para: $toEmail');
+    debugPrint('📧 Assunto: Código de Redefinição de Senha - YourTour');
+    debugPrint('📧 Conteúdo:');
+    debugPrint('📧 Seu código de redefinição de senha é: $resetCode');
+    debugPrint('📧 Este código expira em 15 minutos.');
+    debugPrint('📧 Se você não solicitou esta redefinição, ignore este e-mail.');
+    debugPrint('📧 ================================');
   }
 
   /// Método para produção - integração com serviço real de e-mail
@@ -61,7 +62,7 @@ class EmailService {
 
       return response.statusCode == 200;
     } catch (e) {
-      print('🔴 [EMAIL_SERVICE] Erro na API de e-mail: $e');
+      debugPrint('🔴 [EMAIL_SERVICE] Erro na API de e-mail: $e');
       return false;
     }
   }

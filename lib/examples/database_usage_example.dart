@@ -1,4 +1,5 @@
 // Exemplo de uso do banco de dados SQLite
+import 'package:flutter/foundation.dart';
 import '../models/user.dart';
 import '../services/user_service.dart';
 
@@ -19,9 +20,9 @@ class DatabaseUsageExample {
       );
 
       int userId = await _userService.createUser(newUser);
-      print('Usuário criado com ID: $userId');
+      debugPrint('Usuário criado com ID: $userId');
     } catch (e) {
-      print('Erro ao criar usuário: $e');
+      debugPrint('Erro ao criar usuário: $e');
     }
   }
 
@@ -29,12 +30,12 @@ class DatabaseUsageExample {
   Future<void> getAllUsersExample() async {
     try {
       List<User> users = await _userService.getAllUsers();
-      print('Total de usuários: ${users.length}');
+      debugPrint('Total de usuários: ${users.length}');
       for (User user in users) {
-        print('ID: ${user.userId}, Nome: ${user.userName}, Email: ${user.userEmail}');
+        debugPrint('ID: ${user.userId}, Nome: ${user.userName}, Email: ${user.userEmail}');
       }
     } catch (e) {
-      print('Erro ao buscar usuários: $e');
+      debugPrint('Erro ao buscar usuários: $e');
     }
   }
 
@@ -43,12 +44,12 @@ class DatabaseUsageExample {
     try {
       User? user = await _userService.getUserByEmail('joao@email.com');
       if (user != null) {
-        print('Usuário encontrado: ${user.userName}');
+        debugPrint('Usuário encontrado: ${user.userName}');
       } else {
-        print('Usuário não encontrado');
+        debugPrint('Usuário não encontrado');
       }
     } catch (e) {
-      print('Erro ao buscar usuário: $e');
+      debugPrint('Erro ao buscar usuário: $e');
     }
   }
 
@@ -57,12 +58,12 @@ class DatabaseUsageExample {
     try {
       User? user = await _userService.authenticateUser('joao@email.com', 'senha123');
       if (user != null) {
-        print('Login bem-sucedido: ${user.userName}');
+        debugPrint('Login bem-sucedido: ${user.userName}');
       } else {
-        print('Credenciais inválidas');
+        debugPrint('Credenciais inválidas');
       }
     } catch (e) {
-      print('Erro na autenticação: $e');
+      debugPrint('Erro na autenticação: $e');
     }
   }
 
@@ -80,13 +81,13 @@ class DatabaseUsageExample {
 
         bool success = await _userService.updateUser(updatedUser);
         if (success) {
-          print('Usuário atualizado com sucesso');
+          debugPrint('Usuário atualizado com sucesso');
         } else {
-          print('Falha ao atualizar usuário');
+          debugPrint('Falha ao atualizar usuário');
         }
       }
     } catch (e) {
-      print('Erro ao atualizar usuário: $e');
+      debugPrint('Erro ao atualizar usuário: $e');
     }
   }
 
@@ -97,13 +98,13 @@ class DatabaseUsageExample {
       if (user != null && user.userId != null) {
         bool success = await _userService.deleteUser(user.userId!);
         if (success) {
-          print('Usuário deletado com sucesso');
+          debugPrint('Usuário deletado com sucesso');
         } else {
-          print('Falha ao deletar usuário');
+          debugPrint('Falha ao deletar usuário');
         }
       }
     } catch (e) {
-      print('Erro ao deletar usuário: $e');
+      debugPrint('Erro ao deletar usuário: $e');
     }
   }
 
@@ -111,9 +112,9 @@ class DatabaseUsageExample {
   Future<void> checkEmailExistsExample() async {
     try {
       bool exists = await _userService.emailExists('joao@email.com');
-      print('Email existe: $exists');
+      debugPrint('Email existe: $exists');
     } catch (e) {
-      print('Erro ao verificar email: $e');
+      debugPrint('Erro ao verificar email: $e');
     }
   }
 }

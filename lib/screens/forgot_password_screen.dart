@@ -68,7 +68,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           ),
         ),
         child: Container(
-          color: Colors.black.withOpacity(0.4),
+          color: Colors.black.withAlpha((0.4 * 255).round()),
           child: Padding(
             padding: const EdgeInsets.all(20.0),
             child: Form(
@@ -139,7 +139,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                 ),
                               ),
                               filled: true,
-                              fillColor: Colors.white.withOpacity(0.2),
+                              fillColor: Colors.white.withAlpha((0.2 * 255).round()),
                             ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
@@ -158,9 +158,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                             Container(
                               padding: const EdgeInsets.all(12),
                               decoration: BoxDecoration(
-                                color: Colors.red.withOpacity(0.2),
+                                color: Colors.red.withAlpha((0.2 * 255).round()),
                                 borderRadius: BorderRadius.circular(8),
-                                border: Border.all(color: Colors.red.withOpacity(0.5)),
+                                border: Border.all(color: Colors.red.withAlpha((0.5 * 255).round())),
                               ),
                               child: Row(
                                 children: [

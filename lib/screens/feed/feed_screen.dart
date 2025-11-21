@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+import 'dart:async';
 import 'package:you_tour_app/i18n/strings.dart';
+import '../../database/database_helper.dart';
+import '../../models/post.dart';
+import '../../models/comment.dart';
+import '../../services/session_manager.dart';
 
 class FeedScreen extends StatefulWidget {
   const FeedScreen({super.key});
@@ -12,13 +17,69 @@ class FeedScreen extends StatefulWidget {
 
 class _FeedScreenState extends State<FeedScreen> {
   final List<FeedPost> _posts = [];
+  final DatabaseHelper _dbHelper = DatabaseHelper();
   final ImagePicker _imagePicker = ImagePicker();
   final TextEditingController _commentController = TextEditingController();
+  StreamSubscription<void>? _postsSub;
 
   @override
   void dispose() {
     _commentController.dispose();
+    _postsSub?.cancel();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadPostsFromDb();
+    _postsSub = _dbHelper.postsStream.listen((_) {
+      _loadPostsFromDb();
+    });
+  }
+
+  Future<void> _loadPostsFromDb() async {
+    try {
+      final posts = await _dbHelper.getAllPosts();
+      debugPrint('🔵 [FEED] getAllPosts returned ${posts.length} rows');
+      final List<FeedPost> mapped = [];
+      for (final p in posts) {
+        final user = await _dbHelper.getUserById(p.userId);
+        // carregar comentários e likes
+        final comments = await _dbHelper.getCommentsByPost(p.postId ?? 0);
+        final likesCount = await _dbHelper.getLikesCount(p.postId ?? 0);
+        final currentUserId = SessionManager.currentUser?.userId ?? 0;
+        final isLiked = await _dbHelper.userLiked(p.postId ?? 0, currentUserId);
+
+        final List<PostComment> mappedComments = [];
+        for (final c in comments) {
+          final commentUser = await _dbHelper.getUserById(c.userId);
+          mappedComments.add(PostComment(
+            userName: commentUser?.userName ?? 'Usuário',
+            text: c.text,
+            timeAgo: c.timestamp,
+          ));
+        }
+
+        mapped.add(FeedPost(
+          postId: p.postId,
+          userName: user?.userName ?? 'Usuário YouTour',
+          location: p.location.isNotEmpty ? p.location : 'Local não especificado',
+          caption: p.caption,
+          date: p.timestamp,
+          imagePath: p.imagePath,
+          likes: likesCount,
+          isLiked: isLiked,
+          comments: mappedComments,
+        ));
+      }
+      setState(() {
+        _posts.clear();
+        _posts.addAll(mapped);
+      });
+    } catch (e) {
+      debugPrint('Erro ao carregar posts do DB: $e');
+    }
   }
 
   @override
@@ -354,29 +415,44 @@ class _FeedScreenState extends State<FeedScreen> {
       height: 200,
       margin: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: const Color(0xFF6A1B9A).withOpacity(0.1),
+        color: const Color(0xFF6A1B9A).withAlpha((0.1 * 255).round()),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Center(
         child: Icon(
           Icons.photo_camera,
           size: 50,
-          color: const Color(0xFF6A1B9A).withOpacity(0.5),
+          color: const Color(0xFF6A1B9A).withAlpha((0.5 * 255).round()),
         ),
       ),
     );
   }
 
   void _toggleLike(int postIndex) {
-    setState(() {
-      final post = _posts[postIndex];
-      if (post.isLiked) {
-        post.likes--;
-      } else {
-        post.likes++;
-      }
-      post.isLiked = !post.isLiked;
-    });
+    final post = _posts[postIndex];
+    final postId = post.postId ?? 0;
+    final currentUserId = SessionManager.currentUser?.userId ?? 0;
+
+    debugPrint('🔵 [FEED] toggleLike postId=$postId currentUserId=$currentUserId isLiked=${post.isLiked}');
+    if (postId == 0) {
+      debugPrint('🔴 [FEED] postId is 0, cannot toggle like');
+      return;
+    }
+
+    if (currentUserId == 0) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Faça login para curtir'), backgroundColor: Colors.orange));
+      return;
+    }
+
+    if (post.isLiked) {
+      _dbHelper.removeLike(postId, currentUserId).then((_) => _loadPostsFromDb()).catchError((e) {
+        debugPrint('🔴 [FEED] Erro ao remover like: $e');
+      });
+    } else {
+      _dbHelper.addLike(postId, currentUserId).then((_) => _loadPostsFromDb()).catchError((e) {
+        debugPrint('🔴 [FEED] Erro ao adicionar like: $e');
+      });
+    }
   }
 
   void _showCommentsDialog(int postIndex) {
@@ -548,18 +624,42 @@ class _FeedScreenState extends State<FeedScreen> {
 
   void _addComment(int postIndex, String commentText) {
     if (commentText.isEmpty) return;
+    final currentUser = SessionManager.currentUser;
+    final userId = currentUser?.userId ?? 0;
+    final postId = _posts[postIndex].postId ?? 0;
+    final timestamp = DateTime.now().toIso8601String();
 
-    setState(() {
-      final newComment = PostComment(
-        userName: 'Você',
-        text: commentText,
-        timeAgo: 'Agora mesmo',
+    final comment = Comment(
+      postId: postId,
+      userId: userId,
+      text: commentText,
+      timestamp: timestamp,
+    );
+
+    if (postId == 0) {
+      debugPrint('🔴 [FEED] postId is 0, cannot add comment');
+      return;
+    }
+
+    if (userId == 0) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Faça login para comentar'), backgroundColor: Colors.orange));
+      return;
+    }
+
+    // Fecha o teclado antes de operações assíncronas
+    if (mounted) FocusScope.of(context).unfocus();
+
+    _dbHelper.insertComment(comment).then((id) {
+      debugPrint('🔵 [FEED] Comentário inserido id=$id');
+      if (!mounted) return;
+      _loadPostsFromDb();
+    }).catchError((e) {
+      debugPrint('🔴 [FEED] Erro ao inserir comentário: $e');
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Erro ao salvar comentário: $e'), backgroundColor: Colors.red),
       );
-      _posts[postIndex].comments.add(newComment);
     });
-
-    // Fecha o teclado após comentar
-    FocusScope.of(context).unfocus();
   }
 
   void _showCreatePostDialog() {
@@ -783,12 +883,14 @@ class _FeedScreenState extends State<FeedScreen> {
       );
       return image;
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Erro ao selecionar imagem: $e'),
-          backgroundColor: Colors.red,
-        ),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Erro ao selecionar imagem: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
       return null;
     }
   }
@@ -798,28 +900,42 @@ class _FeedScreenState extends State<FeedScreen> {
     required String location,
     required String imagePath,
   }) {
-    final newPost = FeedPost(
-      userName: 'Usuário YouTour',
-      location: location.isNotEmpty ? location : 'Local não especificado',
+    final currentUser = SessionManager.currentUser;
+    final int userId = currentUser?.userId ?? 0;
+    final timestamp = DateTime.now().toIso8601String();
+
+    final post = Post(
+      userId: userId,
       caption: caption,
-      date: 'Agora mesmo',
       imagePath: imagePath,
+      location: location.isNotEmpty ? location : 'Local não especificado',
+      timestamp: timestamp,
     );
 
-    setState(() {
-      _posts.insert(0, newPost);
+    if (!mounted) return;
+    _dbHelper.insertPost(post).then((id) {
+      if (!mounted) return;
+      _loadPostsFromDb();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(S.of(context).t('feed.post_created')),
+          backgroundColor: const Color(0xFF6A1B9A),
+        ),
+      );
+    }).catchError((e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Erro ao salvar publicação: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
     });
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(S.of(context).t('feed.post_created')),
-        backgroundColor: const Color(0xFF6A1B9A),
-      ),
-    );
   }
 }
 
 class FeedPost {
+  final int? postId;
   final String userName;
   final String location;
   final String caption;
@@ -830,6 +946,7 @@ class FeedPost {
   List<PostComment> comments;
 
   FeedPost({
+    this.postId,
     required this.userName,
     required this.location,
     required this.caption,

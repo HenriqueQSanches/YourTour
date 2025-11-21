@@ -224,7 +224,7 @@ class _UserDataPageState extends State<UserDataPage> {
                 _buildTextField(birthCtrl, 'Data de Nascimento (DD/MM/AAAA)', Icons.cake),
                 const SizedBox(height: 12),
                 DropdownButtonFormField<String>(
-                  value: selectedGender.isNotEmpty ? selectedGender : null,
+                  initialValue: selectedGender.isNotEmpty ? selectedGender : null,
                   decoration: const InputDecoration(
                     labelText: 'Gênero',
                     border: OutlineInputBorder(),
