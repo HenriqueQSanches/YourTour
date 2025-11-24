@@ -6,6 +6,7 @@ import 'screens/forgot_password_screen.dart';
 import 'login_screen.dart';
 import 'services/locale_controller.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'services/map_location_state.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,6 +15,7 @@ Future<void> main() async {
     databaseFactory = databaseFactoryFfi;
   }
   await LocaleController.init();
+  await MapLocationState.init();
   runApp(const MyApp());
 }
 

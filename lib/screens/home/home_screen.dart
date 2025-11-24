@@ -3,8 +3,9 @@ import 'package:you_tour_app/screens/profile/config_main_screen.dart';
 import 'search_location_content.dart';
 import '../favorites/favorites_screen.dart';
 import '../map/map_screen.dart';
-import '../feed/feed_screen.dart'; // Importe a tela de feed
+import '../feed/feed_screen.dart';
 import '../../i18n/strings.dart';
+import 'package:you_tour_app/services/navigation_state.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -15,10 +16,11 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
+  late final VoidCallback _tabListener;
 
   final List<Widget> _screens = [
     const SearchLocationContent(),
-    const FeedScreen(), // Adicione a tela de feed
+    const FeedScreen(),
     const FavoritesScreen(),
     const MapScreen(),
     const ConfigMainScreen(),
@@ -33,6 +35,26 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  @override
+  void initState() {
+    super.initState();
+    _currentIndex = NavigationState.currentTabIndex.value;
+    _tabListener = () {
+      if (_currentIndex != NavigationState.currentTabIndex.value) {
+        setState(() {
+          _currentIndex = NavigationState.currentTabIndex.value;
+        });
+      }
+    };
+    NavigationState.currentTabIndex.addListener(_tabListener);
+  }
+
+  @override
+  void dispose() {
+    NavigationState.currentTabIndex.removeListener(_tabListener);
+    super.dispose();
+  }
+
   BottomNavigationBar _buildBottomNavigationBar() {
     return BottomNavigationBar(
       currentIndex: _currentIndex,
@@ -40,6 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
         setState(() {
           _currentIndex = index;
         });
+        NavigationState.currentTabIndex.value = index;
       },
       type: BottomNavigationBarType.fixed,
       backgroundColor: Colors.white,
